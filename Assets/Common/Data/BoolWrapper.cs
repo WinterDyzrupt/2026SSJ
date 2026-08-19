@@ -23,7 +23,7 @@ namespace Common.Data
             Changed?.Invoke();
         }
 
-        [ContextMenu("Toggle Value")]
+        [ContextMenu("Toggle")]
         public void Toggle()
         {
             currentValue = !currentValue;

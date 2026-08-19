@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44af20011301518498450b2dcb278983, type: 3}
   m_Name: AreCluesInteractable
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.BoolWrapper
-  currentValue: 1
+  currentValue: 0
   defaultValue: 1

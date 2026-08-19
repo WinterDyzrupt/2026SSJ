@@ -7,7 +7,6 @@ namespace Common.MonoBehaviours
 {
     public class ClickableClue : MonoBehaviour
     {
-        [Header("When setting sprite, only set on button child image component.")]
         [SerializeField] private Image buttonImage;
         [SerializeField] private Image glowImage;
         [SerializeField] private Button button;
@@ -29,7 +28,7 @@ namespace Common.MonoBehaviours
             Debug.Assert(buttonImage != null, "Button Image wasn't assigned.");
             Debug.Assert(glowImage != null, "Glow Image wasn't assigned.");
             Debug.Assert(button != null, "Button wasn't assigned.");
-            Debug.Assert(isInteractable, "Interactable wasn't assigned.");
+            Debug.Assert(isInteractable != null, "Interactable wasn't assigned.");
         
             glowImage.sprite = buttonImage.sprite;
             glowImage.color = glowColor;
@@ -44,10 +43,9 @@ namespace Common.MonoBehaviours
             isInteractable.Changed -= SetInteractable;
         }
 
-        public void WhenClueClicked()
+        public void OnClueClicked()
         {
-            isInteractable.Changed -= SetInteractable;
-            SetInteractable(false);
+            isInteractable.Set(false);
             // TODO: Setup to do something
         }
 
