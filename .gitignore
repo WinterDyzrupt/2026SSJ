@@ -101,3 +101,6 @@ InitTestScene*.unity*
 # Rider cache
 .idea/
 Assets/Plugins/Editor/JetBrains*
+
+# TextMesh Pro
+/[Aa]ssets/[Tt]ext[Mm]esh [Pp]ro/
