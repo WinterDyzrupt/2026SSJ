@@ -6,6 +6,14 @@ namespace Common.Data.Characters
     public class Character : ScriptableObject
     {
         public string displayName;
+
+        public Color color;
+        
         // portrait/bust/model/etc. to display
+
+        public override string ToString()
+        {
+            return displayName;
+        }
     }
 }

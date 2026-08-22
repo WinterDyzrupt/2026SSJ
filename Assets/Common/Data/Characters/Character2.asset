@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e421ac900fb104d98d7a31d10369e9, type: 3}
   m_Name: Character2
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Characters.Character
-  displayName: 
+  displayName: Character2
+  textColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

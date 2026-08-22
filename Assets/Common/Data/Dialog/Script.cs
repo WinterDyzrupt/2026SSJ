@@ -1,5 +1,4 @@
 using UnityEngine;
-using Common.Data.Dialog.Lines;
 
 namespace Common.Data.Dialog
 {
