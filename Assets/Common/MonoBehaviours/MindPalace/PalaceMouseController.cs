@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Common.Data;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,15 +10,15 @@ namespace Common.MonoBehaviours.MindPalace
     {
         [Header("Wrappers")]
         [SerializeField] private BoolWrapper isMindPalaceActive;
-        [SerializeField] private DraggableFragmentWrapper mousedOverFragment;
-        [SerializeField] private FragmentDropSlotWrapper mousedOverFragmentDropSlot;
+        [SerializeField] private MonoBehaviourWrapper mousedOverFragment;
+        [SerializeField] private MonoBehaviourWrapper mousedOverSlot;
         
         [Header("Input Action Asset")]
         [SerializeField] private InputActionAsset inputActions;
         private InputAction _pointAction;
         private InputAction _clickAction;
 
-        private DraggableFragment _fragmentDragged;
+        private bool _draggingFragment;
         
         private void Awake()
         {
@@ -52,7 +51,7 @@ namespace Common.MonoBehaviours.MindPalace
         {
             var mousePos = _pointAction.ReadValue<Vector2>();
             
-            if (!_fragmentDragged)
+            if (!_draggingFragment)
             {
                 var hitFragmentResults = UIRaycast<DraggableFragment>(mousePos);
                 mousedOverFragment.Set(hitFragmentResults);
@@ -60,20 +59,24 @@ namespace Common.MonoBehaviours.MindPalace
             else
             {
                 var hitSlotResults = UIRaycast<FragmentDropSlot>(mousePos);
-                mousedOverFragmentDropSlot.Set(hitSlotResults);
+                mousedOverSlot.Set(hitSlotResults);
             }
         }
-
+        
         private void ClickStarted(InputAction.CallbackContext ctx)
         {
-            if (!isMindPalaceActive) return;
+            if (!isMindPalaceActive)
+            {
+                Debug.LogWarning("ClickStarted was attempted but MindPalace shouldn't be active.");
+                return;
+            }
             
             UpdateHover();
-            
-            if (mousedOverFragment.CurrentFragment != null)
+
+            if (mousedOverFragment.Current is DraggableFragment fragment)
             {
-                _fragmentDragged =  mousedOverFragment.CurrentFragment;
-                _fragmentDragged.StartDrag();
+                fragment.StartDrag();
+                _draggingFragment = true;
                 mousedOverFragment.Set(null);
             }
         }
@@ -82,18 +85,21 @@ namespace Common.MonoBehaviours.MindPalace
         {
             if (!isMindPalaceActive) return;
             
-            _fragmentDragged = null;
+            _draggingFragment = false;
         }
 
         private static T UIRaycast<T>(Vector2 screenPos) where T : MonoBehaviour
         {
             var results = new List<RaycastResult>();
             var pointerData = new PointerEventData(EventSystem.current) { position = screenPos };
-            EventSystem.current.RaycastAll(pointerData, results);
-
+            EventSystem.current.RaycastAll(pointerData, results); // Grabbing all objects hit under the pointer
+            
             foreach (var result in results)
             {
-                if (result.gameObject.TryGetComponent<T>(out var component)) return component;
+                if (result.gameObject.TryGetComponent<T>(out var component))
+                {
+                    return component;
+                }
             }
             
             return null;

@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8849645dd284faf9ec3e558db2bb13d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Common.MonoBehaviours.MindPalace.DraggableFragment
-  mousedOverSlot: {fileID: 11400000, guid: 953ba646bce35924b8eb677eadeb674a, type: 2}
+  mousedOverSlot: {fileID: 11400000, guid: 41db70498b2ed59408aa93d007a29dd0, type: 2}
   mousedOverFragment: {fileID: 11400000, guid: 1a9c505962afb484e992095af332ba4e, type: 2}
   inputActions: {fileID: -944628639613478452, guid: b5a5704131fce554997b5d7bd2fed238, type: 3}
   snapSpeedTime: 0.5

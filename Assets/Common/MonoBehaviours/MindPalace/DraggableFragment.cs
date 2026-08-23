@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Common.Data;
 using UnityEngine;
@@ -9,13 +8,9 @@ namespace Common.MonoBehaviours.MindPalace
 {
     public class DraggableFragment : MonoBehaviour
     {
-        private Vector2 _fragmentPosition;
-        private bool _isAnimating;
-        private bool _isBeingDragged;
-
         [Header("Wrappers")]
-        [SerializeField] private FragmentDropSlotWrapper mousedOverSlot;
-        [SerializeField] private DraggableFragmentWrapper mousedOverFragment;
+        [SerializeField] private MonoBehaviourWrapper mousedOverSlot;
+        [SerializeField] private MonoBehaviourWrapper mousedOverFragment;
 
         [Header("Input Action Asset")]
         [SerializeField] private InputActionAsset inputActions;
@@ -24,6 +19,9 @@ namespace Common.MonoBehaviours.MindPalace
         
         [Header("Fragment Animation")]
         [SerializeField] private float snapSpeedTime;
+        private Vector2 _currentSnapPosition;
+        private bool _isAnimating;
+        private bool _isBeingDragged;
         
         [Header("Fragment Components")]
         [SerializeField] private Image glowImage;
@@ -46,7 +44,7 @@ namespace Common.MonoBehaviours.MindPalace
 
         private void OnDestroy()
         {
-            mousedOverFragment.Changed += SetGlow;
+            mousedOverFragment.Changed -= SetGlow;
         }
 
         private void Update()
@@ -64,7 +62,7 @@ namespace Common.MonoBehaviours.MindPalace
         
         private void MoveToPosition(Vector2 newPosition)
         {
-            _fragmentPosition = newPosition;
+            _currentSnapPosition = newPosition;
             
             MoveToPosition();
         }
@@ -73,14 +71,14 @@ namespace Common.MonoBehaviours.MindPalace
         {
             _isAnimating = true;
 
-            var positionInitial = _rectTransform.anchoredPosition;
+            var initialPosition = _rectTransform.anchoredPosition;
             var timePassed = 0f;
 
-            while (_rectTransform.anchoredPosition != _fragmentPosition)
+            while (_rectTransform.anchoredPosition != _currentSnapPosition)
             {
                 _rectTransform.anchoredPosition = Vector2.Lerp(
-                    positionInitial,
-                    _fragmentPosition,
+                    initialPosition,
+                    _currentSnapPosition,
                     timePassed / snapSpeedTime
                 );
                 
@@ -107,15 +105,15 @@ namespace Common.MonoBehaviours.MindPalace
 
         private void UpdateDrag()
         {
-            var pointPosition = _pointAction.ReadValue<Vector2>();
+            var mousePosition = _pointAction.ReadValue<Vector2>();
     
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 transform.parent as RectTransform,
-                pointPosition,
+                mousePosition,
                 null, // null is used when canvas is set to screen space overlay
-                out var localPoint);
+                out var localPosition);
 
-            _rectTransform.anchoredPosition = localPoint;
+            _rectTransform.anchoredPosition = localPosition;
         }
 
         private void EndDrag(InputAction.CallbackContext ctx)
@@ -125,8 +123,8 @@ namespace Common.MonoBehaviours.MindPalace
             if (!_isBeingDragged) return;
             _isBeingDragged = false;
 
-            var slot = mousedOverSlot.CurrentDropSlot;
-            if (slot != null) { MoveToPosition(slot.GetComponent<RectTransform>().anchoredPosition); }
+            var slot = mousedOverSlot.Current;
+            if (slot is not null) { MoveToPosition(slot.GetComponent<RectTransform>().anchoredPosition); }
             else MoveToPosition();
             
             mousedOverSlot.Set(null);
@@ -134,7 +132,7 @@ namespace Common.MonoBehaviours.MindPalace
         
         private void SetGlow()
         {
-            glowImage.enabled = mousedOverFragment.CurrentFragment == this;
+            glowImage.enabled = mousedOverFragment.Current == this;
         }
     }
 }

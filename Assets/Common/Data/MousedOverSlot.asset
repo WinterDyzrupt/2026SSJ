@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05618f24a9f54db7be9c0f53bd8a846c, type: 3}
-  m_Name: MousedOverDropSlot
-  m_EditorClassIdentifier: Assembly-CSharp::Common.Data.FragmentDropSlotWrapper
+  m_Script: {fileID: 11500000, guid: c9a88706b585462a828141ba6d1d0437, type: 3}
+  m_Name: MousedOverSlot
+  m_EditorClassIdentifier: Assembly-CSharp::Common.Data.MonoBehaviourWrapper

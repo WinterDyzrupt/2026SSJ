@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d227a34e393438c9708e1ea2da4f27e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Common.MonoBehaviours.MindPalace.FragmentDropSlot
-  mousedOverSlot: {fileID: 11400000, guid: 953ba646bce35924b8eb677eadeb674a, type: 2}
+  mousedOverSlot: {fileID: 11400000, guid: 41db70498b2ed59408aa93d007a29dd0, type: 2}
   glowImage: {fileID: 7334174583503847510}
 --- !u!222 &7674610250577833178
 CanvasRenderer:

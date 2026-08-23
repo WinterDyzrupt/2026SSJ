@@ -1,5 +1,3 @@
-
-using System;
 using Common.Data;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +7,7 @@ namespace Common.MonoBehaviours.MindPalace
     public class FragmentDropSlot : MonoBehaviour
     {
         [Header("Wrappers")]
-        [SerializeField] private FragmentDropSlotWrapper mousedOverSlot;
+        [SerializeField] private MonoBehaviourWrapper mousedOverSlot;
 
         [Header("Components")]
         [SerializeField] private Image glowImage;
@@ -27,14 +25,14 @@ namespace Common.MonoBehaviours.MindPalace
             mousedOverSlot.Changed -= SetGlow;
         }
 
-        public void DropFragment()
+        public void ReceiveFragment()
         {
-            Debug.Log("Fragment dropped but not implemented.");
+            Debug.Log("ReceiveFragment but not implemented.");
         }
         
         private void SetGlow()
         {
-            glowImage.enabled = mousedOverSlot.CurrentDropSlot == this;
+            glowImage.enabled = mousedOverSlot.Current == this;
         }
     }
 }
