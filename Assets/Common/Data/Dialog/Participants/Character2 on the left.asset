@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2678e7288c2b65e48a5041022ea25c61, type: 3}
+  m_Name: Character2 on the left
+  m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Dialog.Participants.DialogParticipant
+  character: {fileID: 11400000, guid: fc7d3526ae5f7b0489970fc2916ae69f, type: 2}
+  dialogSide: 1
