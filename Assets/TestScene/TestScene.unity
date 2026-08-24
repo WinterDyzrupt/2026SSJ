@@ -1329,6 +1329,62 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _clickAction.m_Id
+      value: e7ae82ee-5b4e-4d1f-8c10-9c232eeaa216
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _pointAction.m_Id
+      value: a8eb58b1-863e-41f4-a3bd-a4e23052a7b2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _clickAction.m_Name
+      value: Click
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _pointAction.m_Name
+      value: Point
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _clickAction.m_SingletonActionBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _pointAction.m_SingletonActionBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _clickAction.m_SingletonActionBindings.Array.data[0].m_Id
+      value: 271f63cd-8cb2-45ec-a217-cb6854da548d
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _pointAction.m_SingletonActionBindings.Array.data[0].m_Id
+      value: b26f5e88-8ca8-4827-899a-188c3cf88749
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _pointAction.m_SingletonActionBindings.Array.data[1].m_Id
+      value: e7c43fbe-32ef-4c99-a542-32af4513dbba
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _clickAction.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Mouse>/leftButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _pointAction.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Mouse>/position
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _clickAction.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Click
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _pointAction.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Point
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932112011637217012, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
+      propertyPath: _pointAction.m_SingletonActionBindings.Array.data[1].m_Action
+      value: Point
+      objectReference: {fileID: 0}
     - target: {fileID: 8848455114493616410, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
       propertyPath: m_Name
       value: Fragment

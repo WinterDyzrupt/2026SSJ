@@ -17,12 +17,12 @@ namespace Common.MonoBehaviours.MindPalace
             Debug.Assert(mousedOverSlot != null, nameof(mousedOverSlot) + " != null");
             Debug.Assert(glowImage != null, nameof(glowImage) + " != null");
 
-            mousedOverSlot.Changed += SetGlow;
+            mousedOverSlot.ReferenceChanged += SetGlow;
         }
 
         private void OnDestroy()
         {
-            mousedOverSlot.Changed -= SetGlow;
+            mousedOverSlot.ReferenceChanged -= SetGlow;
         }
 
         public void ReceiveFragment()

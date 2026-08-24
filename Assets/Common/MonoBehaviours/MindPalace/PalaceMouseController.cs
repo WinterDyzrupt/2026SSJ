@@ -71,23 +71,23 @@ namespace Common.MonoBehaviours.MindPalace
                 return;
             }
             
-            UpdateHover();
-
             if (mousedOverFragment.Current is DraggableFragment fragment)
             {
-                fragment.StartDrag();
                 _draggingFragment = true;
-                mousedOverFragment.Set(null);
             }
         }
 
         private void ClickCanceled(InputAction.CallbackContext ctx)
         {
-            if (!isMindPalaceActive) return;
+            if (!isMindPalaceActive)
+            {
+                Debug.LogWarning("ClickCanceled was attempted but MindPalace shouldn't be active.");
+                return;
+            }
             
             _draggingFragment = false;
         }
-
+        
         private static T UIRaycast<T>(Vector2 screenPos) where T : MonoBehaviour
         {
             var results = new List<RaycastResult>();

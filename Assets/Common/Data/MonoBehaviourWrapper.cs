@@ -8,15 +8,15 @@ namespace Common.Data
     {
         public MonoBehaviour Current { get; private set; }
 
-        public event Action Changed;
-
+        public event Action ReferenceChanged;
+        
         private void Awake() => Current = null;
         
         public void Set(MonoBehaviour newMonoBehaviour)
         {
             if (Current == newMonoBehaviour) return;
             Current = newMonoBehaviour;
-            Changed?.Invoke();
+            ReferenceChanged?.Invoke();
         }
     }
 }

@@ -14,8 +14,8 @@ namespace Common.MonoBehaviours.MindPalace
 
         [Header("Input Action Asset")]
         [SerializeField] private InputActionAsset inputActions;
-        private InputAction _pointAction;
-        private InputAction _clickAction;
+        [SerializeField] private InputAction _pointAction;
+        [SerializeField] private InputAction _clickAction;
         
         [Header("Fragment Animation")]
         [SerializeField] private float snapSpeedTime;
@@ -39,12 +39,14 @@ namespace Common.MonoBehaviours.MindPalace
             _pointAction = inputActions["UI/Point"];
             _clickAction = inputActions["UI/Click"];
 
-            mousedOverFragment.Changed += SetGlow;
+            mousedOverFragment.ReferenceChanged += SetGlow;
+            _clickAction.started += ClickStarted;
         }
 
         private void OnDestroy()
         {
-            mousedOverFragment.Changed -= SetGlow;
+            mousedOverFragment.ReferenceChanged -= SetGlow;
+            _clickAction.started -= ClickStarted;
         }
 
         private void Update()
@@ -94,6 +96,15 @@ namespace Common.MonoBehaviours.MindPalace
             Destroy(gameObject);
         }
 
+        private void ClickStarted(InputAction.CallbackContext ctx)
+        {
+            if (mousedOverFragment.Current == this)
+            {
+                StartDrag();
+                SetGlow();
+            }
+        }
+        
         public void StartDrag()
         {
             if (_isAnimating) return;
@@ -132,7 +143,7 @@ namespace Common.MonoBehaviours.MindPalace
         
         private void SetGlow()
         {
-            glowImage.enabled = mousedOverFragment.Current == this;
+            glowImage.enabled = mousedOverFragment.Current == this && !_isBeingDragged;
         }
     }
 }
