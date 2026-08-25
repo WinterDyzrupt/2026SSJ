@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Character2
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Characters.Character
   displayName: Character2
-  textColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  color: {r: 1, g: 0.2705882, b: 0, a: 1}

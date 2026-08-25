@@ -122,8 +122,8 @@ MonoBehaviour:
   dialogOverlay: {fileID: 498877211554560025}
   speakerNameTextBox: {fileID: 3243869469939309113}
   dialogTextBox: {fileID: 7477772472234995941}
-  leftParticipantThing: {fileID: 3259655583160556565}
-  rightParticipantThing: {fileID: 6073923606310997961}
+  leftParticipant: {fileID: 3259655583160556565}
+  rightParticipant: {fileID: 6073923606310997961}
   isDialogInProgress: 0
 --- !u!1 &834606500000436459
 GameObject:

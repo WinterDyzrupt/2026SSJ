@@ -88,6 +88,7 @@ namespace Common.MonoBehaviours
             {
                 Debug.Log("Displaying line: " + line);
 
+                // For now, assume speaker is always on the left
                 if (line.speaker?.character != null)
                 {
                     speakerNameTextBox.text = line.speaker.character.displayName;
@@ -107,7 +108,7 @@ namespace Common.MonoBehaviours
         {
             Debug.Assert(_lineEnumerator != null, nameof(_lineEnumerator) + " must be non-null when progressing dialog.");
 
-            Debug.Log("DialogBox.OnClick");
+            Debug.Log("DialogController.OnDialogProgressed");
             var nextLine = _lineEnumerator.MoveNext();
             if (nextLine && _lineEnumerator.Current != null)
             {
