@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 469117298025904644}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7044380924531253185}
@@ -203,7 +203,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Common.MonoBehaviours.MindPalace.FragmentDropSlot
   mousedOverSlot: {fileID: 11400000, guid: 41db70498b2ed59408aa93d007a29dd0, type: 2}
+  mousedOverFragment: {fileID: 11400000, guid: 1a9c505962afb484e992095af332ba4e, type: 2}
   glowImage: {fileID: 7334174583503847510}
+  inputActions: {fileID: -944628639613478452, guid: b5a5704131fce554997b5d7bd2fed238, type: 3}
 --- !u!222 &7674610250577833178
 CanvasRenderer:
   m_ObjectHideFlags: 0

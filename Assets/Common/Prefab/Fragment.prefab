@@ -213,27 +213,8 @@ MonoBehaviour:
   mousedOverSlot: {fileID: 11400000, guid: 41db70498b2ed59408aa93d007a29dd0, type: 2}
   mousedOverFragment: {fileID: 11400000, guid: 1a9c505962afb484e992095af332ba4e, type: 2}
   inputActions: {fileID: -944628639613478452, guid: b5a5704131fce554997b5d7bd2fed238, type: 3}
-  _pointAction:
-    m_Name: Point
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 8247da32-ffd9-489a-9d04-924a0238918d
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-    m_Priority: 0
-  _clickAction:
-    m_Name: Click
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 65dbf3a1-53b1-4fdd-ae62-3d3eb6f98458
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-    m_Priority: 0
   snapSpeedTime: 0.5
+  fragmentImage: {fileID: 8244844918411768383}
   glowImage: {fileID: 4010542711705780814}
 --- !u!114 &1134170454901111271
 MonoBehaviour:

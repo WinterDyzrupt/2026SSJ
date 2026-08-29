@@ -1,5 +1,6 @@
 using System.Collections;
 using Common.Data;
+using Common.Data.Fragments;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -22,34 +23,51 @@ namespace Common.MonoBehaviours.MindPalace
 
         [Header("Fragment Animation")]
         [SerializeField] private float snapSpeedTime;
-        private Vector2 _currentSnapPosition;
+        [SerializeField] private FragmentDropSlot currentSlot;
+        private Vector3 _currentSnapPosition;
         private bool _isAnimating;
         private bool _isBeingDragged;
-        
-        [Header("Fragment Components")]
-        [SerializeField] private Image glowImage;
         private RectTransform _rectTransform;
+
+        [Header("Fragment Components")]
+        [SerializeField] private Image fragmentImage;
+        [SerializeField] private Image glowImage;
+
+        [Header("Stored Fragment Data")]
+        [field: SerializeField] public FragmentData FragmentData { get; private set; }
 
         private void Awake()
         {
             Debug.Assert(mousedOverSlot != null, nameof(mousedOverSlot) + " != null");
             Debug.Assert(mousedOverFragment != null, nameof(mousedOverFragment) + " != null");
             Debug.Assert(inputActions != null, nameof(inputActions) + " != null");
+            Debug.Assert(fragmentImage != null, nameof(fragmentImage) + " != null");
             Debug.Assert(glowImage != null, nameof(glowImage) + " != null");
 
             _rectTransform = GetComponent<RectTransform>();
-            
+
             _pointAction = inputActions[PointActionName];
             _clickAction = inputActions[ClickActionName];
 
             mousedOverFragment.ReferenceChanged += SetGlow;
             _clickAction.started += ClickStarted;
+            _clickAction.canceled += SetGlow;
+        }
+
+        public void InitializeFragment(FragmentData newFragmentData, FragmentDropSlot slot)
+        {
+            FragmentData = newFragmentData;
+            fragmentImage.color = FragmentData.color;
+            MoveToPosition(slot);
         }
 
         private void OnDestroy()
         {
+            currentSlot.UnregisterFragment();
+            
             mousedOverFragment.ReferenceChanged -= SetGlow;
             _clickAction.started -= ClickStarted;
+            _clickAction.canceled -= SetGlow;
         }
 
         private void Update()
@@ -64,11 +82,13 @@ namespace Common.MonoBehaviours.MindPalace
 
             StartCoroutine(AnimateToPosition());
         }
-        
-        private void MoveToPosition(Vector2 newPosition)
+
+        private void MoveToPosition(FragmentDropSlot slot)
         {
-            _currentSnapPosition = newPosition;
-            
+            currentSlot = slot;
+            slot.RegisterFragment(this);
+            _currentSnapPosition = slot.GetComponent<RectTransform>().position;
+
             MoveToPosition();
         }
 
@@ -76,17 +96,17 @@ namespace Common.MonoBehaviours.MindPalace
         {
             _isAnimating = true;
 
-            var initialPosition = _rectTransform.anchoredPosition;
+            var initialPosition = _rectTransform.position;
             var timePassed = 0f;
 
-            while (_rectTransform.anchoredPosition != _currentSnapPosition)
+            while (_rectTransform.position != _currentSnapPosition)
             {
-                _rectTransform.anchoredPosition = Vector2.Lerp(
+                _rectTransform.position = Vector3.Lerp(
                     initialPosition,
                     _currentSnapPosition,
                     timePassed / snapSpeedTime
                 );
-                
+
                 timePassed += Time.deltaTime;
                 yield return null;
             }
@@ -107,20 +127,21 @@ namespace Common.MonoBehaviours.MindPalace
                 SetGlow();
             }
         }
-        
-        public void StartDrag()
+
+        private void StartDrag()
         {
             if (_isAnimating) return;
 
             _clickAction.canceled += EndDrag;
 
             _isBeingDragged = true;
+            transform.SetAsLastSibling(); // this makes it so it doesn't disappear behind other fragments.
         }
 
         private void UpdateDrag()
         {
             var mousePosition = _pointAction.ReadValue<Vector2>();
-    
+
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 transform.parent as RectTransform,
                 mousePosition,
@@ -137,16 +158,20 @@ namespace Common.MonoBehaviours.MindPalace
             if (!_isBeingDragged) return;
             _isBeingDragged = false;
 
-            var slot = mousedOverSlot.Current;
-            if (slot is not null) { MoveToPosition(slot.GetComponent<RectTransform>().anchoredPosition); }
+            var slot = mousedOverSlot.Current as FragmentDropSlot;
+            if (slot != null && (!slot.IsOccupied || slot.OccupiedFragment == this))
+            {
+                currentSlot.UnregisterFragment();
+                MoveToPosition(slot);
+            }
             else MoveToPosition();
-            
-            mousedOverSlot.Set(null);
         }
-        
+
         private void SetGlow()
         {
-            glowImage.enabled = mousedOverFragment.Current == this && !_isBeingDragged;
+            glowImage.enabled = !_clickAction.IsInProgress() && mousedOverFragment.Current == this;
         }
+        
+        private void SetGlow(InputAction.CallbackContext ctx) => SetGlow();
     }
 }
