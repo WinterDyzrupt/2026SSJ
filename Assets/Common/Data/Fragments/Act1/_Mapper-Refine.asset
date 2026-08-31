@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ce717e5edf74fca8769dcdfec16efcd, type: 3}
   m_Name: _Mapper-Refine
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Fragments.RefineMapper
-  map:
-  - from:
-    - {fileID: 11400000, guid: 9500d345f4d43eb4b8b6a9158c574958, type: 2}
-    to:
-    - {fileID: 11400000, guid: 2fdcd5420d625834eb9a0c7132a3ddca, type: 2}
+  refineMap:
+  - input1: {fileID: 11400000, guid: 9500d345f4d43eb4b8b6a9158c574958, type: 2}
+    output1: {fileID: 11400000, guid: 2fdcd5420d625834eb9a0c7132a3ddca, type: 2}

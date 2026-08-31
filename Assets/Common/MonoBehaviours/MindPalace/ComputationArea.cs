@@ -35,17 +35,17 @@ namespace Common.MonoBehaviours.MindPalace
         {
             var allFragmentData = slots
                 .Where(x => x.OccupiedFragment != null)
-                .Select(x => x.OccupiedFragment.FragmentData)
+                .Select(x => x.OccupiedFragment.Data)
                 .ToList();
-            var results = mapper.FindFragment(allFragmentData);
 
-            if (results?.Count > 0)
+            if (mapper.FindFragment(allFragmentData, out var results))
             {
-                var allFragments = slots
-                    .Where(x => x.OccupiedFragment != null)
-                    .Select(x => x.OccupiedFragment)
-                    .ToList();
-                foreach (var fragment in allFragments) fragment.DestroyFragment();
+                foreach (var slot in slots)
+                {
+                    storageArea.UsedFragments.Add(slot.OccupiedFragment.Data);
+                    slot.OccupiedFragment.DestroyFragment();
+                    slot.UnregisterFragment();
+                }
                 
                 storageArea.AddNewFragment(results);
             }

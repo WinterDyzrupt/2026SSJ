@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 namespace Common.MonoBehaviours.MindPalace
 {
+    [RequireComponent(typeof(RectTransform))]
     public class DraggableFragment : MonoBehaviour
     {
         [Header("Wrappers")]
-        [SerializeField] private MonoBehaviourWrapper mousedOverSlot;
         [SerializeField] private MonoBehaviourWrapper mousedOverFragment;
 
         [Header("Input Action Asset")]
@@ -23,7 +23,6 @@ namespace Common.MonoBehaviours.MindPalace
 
         [Header("Fragment Animation")]
         [SerializeField] private float snapSpeedTime;
-        [SerializeField] private FragmentDropSlot currentSlot;
         private Vector3 _currentSnapPosition;
         private bool _isAnimating;
         private bool _isBeingDragged;
@@ -34,11 +33,11 @@ namespace Common.MonoBehaviours.MindPalace
         [SerializeField] private Image glowImage;
 
         [Header("Stored Fragment Data")]
-        [field: SerializeField] public FragmentData FragmentData { get; private set; }
+        [field: SerializeField] public FragmentData Data { get; private set; }
 
         private void Awake()
         {
-            Debug.Assert(mousedOverSlot != null, nameof(mousedOverSlot) + " != null");
+            //Debug.Assert(mousedOverSlot != null, nameof(mousedOverSlot) + " != null");
             Debug.Assert(mousedOverFragment != null, nameof(mousedOverFragment) + " != null");
             Debug.Assert(inputActions != null, nameof(inputActions) + " != null");
             Debug.Assert(fragmentImage != null, nameof(fragmentImage) + " != null");
@@ -54,17 +53,14 @@ namespace Common.MonoBehaviours.MindPalace
             _clickAction.canceled += SetGlow;
         }
 
-        public void InitializeFragment(FragmentData newFragmentData, FragmentDropSlot slot)
+        public void InitializeFragment(FragmentData newFragmentData)
         {
-            FragmentData = newFragmentData;
-            fragmentImage.color = FragmentData.color;
-            MoveToPosition(slot);
+            Data = newFragmentData;
+            fragmentImage.color = Data.color;
         }
 
         private void OnDestroy()
         {
-            currentSlot.UnregisterFragment();
-            
             mousedOverFragment.ReferenceChanged -= SetGlow;
             _clickAction.started -= ClickStarted;
             _clickAction.canceled -= SetGlow;
@@ -83,11 +79,9 @@ namespace Common.MonoBehaviours.MindPalace
             StartCoroutine(AnimateToPosition());
         }
 
-        private void MoveToPosition(FragmentDropSlot slot)
+        public void MoveToPosition(Vector3 newPosition)
         {
-            currentSlot = slot;
-            slot.RegisterFragment(this);
-            _currentSnapPosition = slot.GetComponent<RectTransform>().position;
+            _currentSnapPosition = newPosition;
 
             MoveToPosition();
         }
@@ -132,7 +126,7 @@ namespace Common.MonoBehaviours.MindPalace
         {
             if (_isAnimating) return;
 
-            _clickAction.canceled += EndDrag;
+            _clickAction.canceled += ClickCanceled;
 
             _isBeingDragged = true;
             transform.SetAsLastSibling(); // this makes it so it doesn't disappear behind other fragments.
@@ -151,20 +145,14 @@ namespace Common.MonoBehaviours.MindPalace
             _rectTransform.anchoredPosition = localPosition;
         }
 
-        private void EndDrag(InputAction.CallbackContext ctx)
+        private void ClickCanceled(InputAction.CallbackContext ctx)
         {
-            _clickAction.canceled -= EndDrag;
+            _clickAction.canceled -= ClickCanceled;
 
             if (!_isBeingDragged) return;
             _isBeingDragged = false;
-
-            var slot = mousedOverSlot.Current as FragmentDropSlot;
-            if (slot != null && (!slot.IsOccupied || slot.OccupiedFragment == this))
-            {
-                currentSlot.UnregisterFragment();
-                MoveToPosition(slot);
-            }
-            else MoveToPosition();
+            
+            if (!_isAnimating) MoveToPosition();
         }
 
         private void SetGlow()

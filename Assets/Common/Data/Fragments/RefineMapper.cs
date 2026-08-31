@@ -7,23 +7,42 @@ namespace Common.Data.Fragments
     [CreateAssetMenu(fileName = "RefineMapper", menuName = "Fragments/Refine Mapper")]
     public class RefineMapper : FragmentMapper
     {
-        public override List<FragmentData> FindFragment(List<FragmentData> targets)
+        [System.Serializable]
+        public struct RefineEntry
         {
-            if (targets.Count != 1)
-            {
-                Debug.LogError($"Refine Mapper was given {targets.Count} targets. Expected 1.");
-                return null;
-            }
+            [SerializeField] public FragmentData input1;
+            [SerializeField] public FragmentData output1;
+            
+            public bool IsNotValid => input1 == null || output1 == null;
+        }
+        
+        [SerializeField] public List<RefineEntry> refineMap;
 
-            if (map.Any(x => x.from.Count != 1) || map.Any(x => x.to.Count != 1) )
+        private void Awake()
+        {
+            if (refineMap.Any(x => x.IsNotValid))
             {
-                Debug.LogError($"Refine Mapper entries must have exactly 1 'from' and 1 'to'.");
-                return null;
+                Debug.LogError($"Refine Mapper in {name} has a null value in one it's entries.");
+            }
+        }
+
+        public override bool FindFragment(List<FragmentData> candidates, out List<FragmentData> results)
+        {
+            results = new();
+            
+            if (candidates?.Count != 1 || candidates[0] == null)
+            {
+                return false;
             }
             
-            var target = targets[0];
+            var match = refineMap.FirstOrDefault(x =>
+                x.input1 == candidates[0])
+                .output1;
 
-            return map.FirstOrDefault(x => x.from[0] == target).to;
+            if (match == null) return false;
+
+            results.Add(match);
+            return true;
         }
     }
 }

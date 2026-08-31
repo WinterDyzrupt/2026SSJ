@@ -13,6 +13,8 @@ namespace Common.MonoBehaviours.MindPalace
 
         [Header("Initial fragments to spawn for testing")]
         [SerializeField] private List<FragmentData> initialFragments;
+        
+        public readonly List<FragmentData> UsedFragments = new();
 
         private void Awake()
         {
@@ -20,6 +22,8 @@ namespace Common.MonoBehaviours.MindPalace
             Debug.Assert(fragmentPrefab != null, "No fragment prefab assigned to the Fragment Storage Area.");
             Debug.Assert(fragmentParent != null, "No fragment parent assigned to the Fragment Storage Area.");
             
+            // If we don't force an update, Canvas object don't have proper rect transform positions
+            // this would cause any grabbed transform data to be wrong
             Canvas.ForceUpdateCanvases();
         }
 
@@ -27,24 +31,34 @@ namespace Common.MonoBehaviours.MindPalace
         {
             AddNewFragment(initialFragments);
         }
-
-        private void AddNewFragment(FragmentData newFragmentData)
-        {
-            var availableSlot = slots.FirstOrDefault(x => !x.IsOccupied);
-            if (availableSlot == null)
-            {
-                Debug.LogError("No available slot found for new fragment!");
-                return;
-            }
-            
-            var newFragmentObject = Instantiate(fragmentPrefab, fragmentParent);
-            var newFragment = newFragmentObject.GetComponent<DraggableFragment>();
-            newFragment.InitializeFragment(newFragmentData,availableSlot);
-        }
-
+        
+        // TODO: Wire this up to an event that exists in a scriptable object
         public void AddNewFragment(List<FragmentData> newFragmentsData)
         {
-            foreach (var newFragment in newFragmentsData) AddNewFragment(newFragment);
+            ForceSlotUpdate();
+            
+            foreach (var newFragmentData in newFragmentsData)
+            {
+                var availableSlot = slots.FirstOrDefault(x => !x.IsOccupied);
+                if (availableSlot == null)
+                {
+                    Debug.LogError("No available slot found for new fragment!");
+                    return;
+                }
+            
+                var newFragmentObject = Instantiate(fragmentPrefab, fragmentParent);
+                var newFragment = newFragmentObject.GetComponent<DraggableFragment>();
+                newFragment.InitializeFragment(newFragmentData);
+                availableSlot.RegisterFragment(newFragment);
+            }
+        }
+
+        private void ForceSlotUpdate()
+        {
+            foreach (var slot in slots)
+            {
+                if(UsedFragments.Contains(slot.OccupiedFragment?.Data)) slot.UnregisterFragment();
+            }
         }
     }
 }

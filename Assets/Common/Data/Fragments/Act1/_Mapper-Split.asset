@@ -12,14 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e12c679d29b42d8b8b946a435671842, type: 3}
   m_Name: _Mapper-Split
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Fragments.SplitMapper
-  map:
-  - from:
-    - {fileID: 11400000, guid: 3a3f8fb6b23183542b4d2b4677c65e0d, type: 2}
-    to:
-    - {fileID: 11400000, guid: 9500d345f4d43eb4b8b6a9158c574958, type: 2}
-    - {fileID: 11400000, guid: 6e58cec7aac3e154193b8ca38974fc56, type: 2}
-  - from:
-    - {fileID: 11400000, guid: 8066dbe8619b7d9458361ebe69c63771, type: 2}
-    to:
-    - {fileID: 11400000, guid: 80d36ae2c2d3a664bb99e61637985cec, type: 2}
-    - {fileID: 11400000, guid: 604ff70afb1d06c4b988c88cfc214778, type: 2}
+  splitMap:
+  - input1: {fileID: 11400000, guid: 3a3f8fb6b23183542b4d2b4677c65e0d, type: 2}
+    output1: {fileID: 11400000, guid: 9500d345f4d43eb4b8b6a9158c574958, type: 2}
+    output2: {fileID: 11400000, guid: 6e58cec7aac3e154193b8ca38974fc56, type: 2}
+  - input1: {fileID: 11400000, guid: 8066dbe8619b7d9458361ebe69c63771, type: 2}
+    output1: {fileID: 11400000, guid: 80d36ae2c2d3a664bb99e61637985cec, type: 2}
+    output2: {fileID: 11400000, guid: 604ff70afb1d06c4b988c88cfc214778, type: 2}

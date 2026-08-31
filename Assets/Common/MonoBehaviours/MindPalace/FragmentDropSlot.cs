@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace Common.MonoBehaviours.MindPalace
 {
+    [RequireComponent(typeof(RectTransform))]
     public class FragmentDropSlot : MonoBehaviour
     {
         [Header("Wrappers")]
@@ -14,6 +15,7 @@ namespace Common.MonoBehaviours.MindPalace
 
         [Header("Components")]
         [SerializeField] private Image glowImage;
+        private RectTransform _rectTransform;
 
         [Header("Input Action Asset")]
         [SerializeField] private InputActionAsset inputActions;
@@ -24,6 +26,7 @@ namespace Common.MonoBehaviours.MindPalace
         [Header("Slot State")]
         [field: SerializeField] public DraggableFragment OccupiedFragment { get; private set; }
         public bool IsOccupied => OccupiedFragment != null;
+        private bool _draggingFragment;
 
         public event Action OccupancyChanged;
 
@@ -32,37 +35,65 @@ namespace Common.MonoBehaviours.MindPalace
             Debug.Assert(mousedOverSlot != null, nameof(mousedOverSlot) + " != null");
             Debug.Assert(mousedOverFragment != null, nameof(mousedOverFragment) + " != null");
             Debug.Assert(glowImage != null, nameof(glowImage) + " != null");
-
+            
             _clickAction = inputActions[ClickActionName];
 
             mousedOverSlot.ReferenceChanged += SetGlow;
-            _clickAction.started += SetGlow;
-            _clickAction.canceled += SetGlow;
+            _clickAction.started += ClickStarted;
+            _clickAction.canceled += ClickCanceled;
+            
+            _rectTransform = gameObject.GetComponent<RectTransform>();
         }
 
         private void OnDestroy()
         {
             mousedOverSlot.ReferenceChanged -= SetGlow;
+            _clickAction.started -= ClickStarted;
+            _clickAction.canceled -= ClickCanceled;
         }
 
         public void RegisterFragment(DraggableFragment fragment)
         {
             OccupiedFragment = fragment;
+            fragment.MoveToPosition(_rectTransform.position);
             OccupancyChanged?.Invoke();
-            SetGlow();
         }
 
         public void UnregisterFragment()
         {
             OccupiedFragment = null;
+        }
+
+        private void ClickStarted(InputAction.CallbackContext ctx)
+        {
+            if (mousedOverFragment.Current != null) _draggingFragment = true;
             SetGlow();
         }
 
+        private void ClickCanceled(InputAction.CallbackContext ctx)
+        {
+            SetGlow();
+
+            var mousedSlot = mousedOverSlot.Current as FragmentDropSlot;
+            var mousedFragment = mousedOverFragment.Current as DraggableFragment;
+
+            if (mousedSlot == null || mousedFragment == null) return;
+
+            if (mousedSlot == this && !IsOccupied)
+            {
+                RegisterFragment(mousedFragment);
+            }
+            else if (mousedSlot != this &&
+                     (!mousedSlot.IsOccupied || mousedSlot.OccupiedFragment == mousedFragment) &&
+                     OccupiedFragment == mousedFragment)
+            {
+                UnregisterFragment();
+            }
+        }
+        
         private void SetGlow()
         {
-            glowImage.enabled = _clickAction.IsInProgress() && mousedOverSlot.Current == this;
+            glowImage.enabled = _draggingFragment && _clickAction.IsInProgress() && mousedOverSlot.Current == this;
         }
-
-        private void SetGlow(InputAction.CallbackContext ctx) => SetGlow();
     }
 }

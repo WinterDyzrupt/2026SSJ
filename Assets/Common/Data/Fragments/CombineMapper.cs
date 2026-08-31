@@ -7,25 +7,44 @@ namespace Common.Data.Fragments
     [CreateAssetMenu(fileName = "CombineMapper", menuName = "Fragments/Combine Mapper")]
     public class CombineMapper : FragmentMapper
     {
-        public override List<FragmentData> FindFragment(List<FragmentData> targets)
+        [System.Serializable]
+        public struct CombineEntry
         {
-            if (targets.Count == 1) return null; // User hasn't selected a second fragment yet
-            if (targets.Count != 2)
-            {
-                Debug.LogError($"Combine Mapper was given {targets.Count} targets. 1 is fine but 2 are needed.");
-                return null;
-            }
+            [SerializeField] public FragmentData input1;
+            [SerializeField] public FragmentData input2;
+            [SerializeField] public FragmentData output1;
+            
+            public bool IsNotValid => input1 == null || input2 == null || output1 == null;
+        }
+        
+        [SerializeField] public List<CombineEntry> combineMap;
 
-            if (map.Any(x => x.from.Count != 2) || map.Any(x => x.to.Count != 1) )
+        private void Awake()
+        {
+            if (combineMap.Any(x => x.IsNotValid))
             {
-                Debug.LogError($"Combine Mapper entries must have exactly 2 'from' and 1 'to'.");
-                return null;
+                Debug.LogError($"Combine Mapper in {name} has a null value in one it's entries.");
+            }
+        }
+
+        public override bool FindFragment(List<FragmentData> candidates, out List<FragmentData> results)
+        {
+            results = new();
+
+            if (candidates?.Count != 2 || candidates[0] == null || candidates[1] == null)
+            {
+                return false;
             }
             
-            return map.FirstOrDefault(x =>
-                (x.from[0] == targets[0] && x.from[1] == targets[1]) ||
-                (x.from[0] == targets[1] && x.from[1] == targets[0]))
-                .to;
+            var match =  combineMap.FirstOrDefault(x =>
+                (x.input1 == candidates[0] && x.input2 == candidates[1]) ||
+                (x.input1 == candidates[1] && x.input2 == candidates[0]))
+                .output1;
+
+            if (match == null) return false;
+                
+            results.Add(match);
+            return true;
         }
     }
 }

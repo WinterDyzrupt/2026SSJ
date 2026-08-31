@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e56a1c2acde440dfab58b8db45b8880c, type: 3}
   m_Name: _Mapper-Combine
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Fragments.CombineMapper
-  map:
-  - from:
-    - {fileID: 11400000, guid: 80d36ae2c2d3a664bb99e61637985cec, type: 2}
-    - {fileID: 11400000, guid: 2fdcd5420d625834eb9a0c7132a3ddca, type: 2}
-    to:
-    - {fileID: 11400000, guid: 91d26d2bf3d55fe468d4d68cc7b54764, type: 2}
+  combineMap:
+  - input1: {fileID: 11400000, guid: 2fdcd5420d625834eb9a0c7132a3ddca, type: 2}
+    input2: {fileID: 11400000, guid: 80d36ae2c2d3a664bb99e61637985cec, type: 2}
+    output1: {fileID: 11400000, guid: 91d26d2bf3d55fe468d4d68cc7b54764, type: 2}

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb13abdbb914436aa5954e93678100d, type: 3}
   m_Name: Footprint-01
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.FragmentData.FragmentData
-  subject: A Muddy Footprint
+  displayName: Muddy Footprints
   color: {r: 1, g: 0, b: 0, a: 1}
   description: You found this muddy footprint next to the missing sunflower.

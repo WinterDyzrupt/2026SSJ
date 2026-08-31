@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb13abdbb914436aa5954e93678100d, type: 3}
   m_Name: Footprint-03
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.FragmentData.FragmentData
-  subject: Person A's Footprints
+  displayName: Muddy Footprints
   color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   description: 'You found this muddy footprint next to the missing sunflower.
 

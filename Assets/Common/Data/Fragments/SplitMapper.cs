@@ -7,23 +7,42 @@ namespace Common.Data.Fragments
     [CreateAssetMenu(fileName = "SplitMapper", menuName = "Fragments/Split Mapper")]
     public class SplitMapper : FragmentMapper
     {
-        public override List<FragmentData> FindFragment(List<FragmentData> targets)
+        [System.Serializable]
+        public struct SplitEntry
         {
-            if (targets.Count != 1)
-            {
-                Debug.LogError($"Split Mapper was given {targets.Count} targets. Expected 1.");
-                return null;
-            }
+            [SerializeField] public FragmentData input1;
+            [SerializeField] public FragmentData output1;
+            [SerializeField] public FragmentData output2;
+            
+            public bool IsNotValid => input1 == null || output1 == null || output2 == null;
+        }
+        
+        [SerializeField] public List<SplitEntry> splitMap;
 
-            if (map.Any(x => x.from.Count != 1) || map.Any(x => x.to.Count != 2) )
+        private void Awake()
+        {
+            if (splitMap.Any(x => x.IsNotValid))
             {
-                Debug.LogError($"Split Mapper entries must have exactly 1 'from' and 2 'to'.");
-                return null;
+                Debug.LogError($"Split Mapper in {name} has a null value in one it's entries.");
+            }
+        }
+        
+        public override bool FindFragment(List<FragmentData> candidates, out List<FragmentData> results)
+        {
+            results = new();
+            
+            if (candidates?.Count != 1 || candidates[0] == null)
+            {
+                return false;
             }
             
-            var target = targets[0];
+            var match = splitMap.FirstOrDefault(x => x.input1 == candidates[0]);
 
-            return map.FirstOrDefault(x => x.from[0] == target).to;
+            if (match.IsNotValid) return false;
+            
+            results.Add(match.output1);
+            results.Add(match.output2);
+            return true;
         }
     }
 }

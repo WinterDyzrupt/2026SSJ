@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb13abdbb914436aa5954e93678100d, type: 3}
   m_Name: CrimeScene
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Fragments.FragmentData
-  subject: Crime Scene
+  displayName: Crime Scene Investigation
   color: {r: 0, g: 0, b: 0, a: 1}
   description: 'I''ve examined the Crime Scene!
 

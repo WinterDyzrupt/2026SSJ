@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 256160954}
   - component: {fileID: 256160953}
   m_Layer: 5
-  m_Name: SubjectPanel
+  m_Name: DisplayNamePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3376,7 +3376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eff772df5fa4a5792a2c3d8d3d57493, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Common.MonoBehaviours.MindPalace.InfoPanel
-  subjectText: {fileID: 2017247162}
+  displayNameText: {fileID: 2017247162}
   descriptionText: {fileID: 1071140994}
   mousedOverFragment: {fileID: 11400000, guid: 1a9c505962afb484e992095af332ba4e, type: 2}
 --- !u!1 &1950433863
@@ -3716,7 +3716,7 @@ GameObject:
   - component: {fileID: 2017247163}
   - component: {fileID: 2017247162}
   m_Layer: 5
-  m_Name: SubjectText
+  m_Name: DisplayNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
