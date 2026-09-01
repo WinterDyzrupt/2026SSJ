@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2678e7288c2b65e48a5041022ea25c61, type: 3}
-  m_Name: Character2 on the right
+  m_Name: NickOnRight
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Dialog.Participants.DialogParticipant
-  character: {fileID: 11400000, guid: fc7d3526ae5f7b0489970fc2916ae69f, type: 2}
-  dialogSide: 2
+  character: {fileID: 11400000, guid: c9cdfc956497d3e439775c43374f5afa, type: 2}
+  side: 2

@@ -11,9 +11,11 @@ namespace Common.Data.Dialog.Participants
     {
         public Character character;
 
+        public ParticipantSide side;
+
         public override string ToString()
         {
-            return character?.ToString();
+            return $"Side: {side}; character: {character}";
         }
     }
 }

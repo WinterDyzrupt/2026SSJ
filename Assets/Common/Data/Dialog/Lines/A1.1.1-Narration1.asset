@@ -10,8 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ef8823a07e4bbd4b8c781e23d7b1668, type: 3}
-  m_Name: Char1ThinkingToSelf
+  m_Name: A1.1.1-Narration1
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Dialog.Line
-  text: Dialog line one
-  speaker: {fileID: 11400000, guid: 061780d9abc8cf849b56a6921e7b53ea, type: 2}
-  listeners: []
+  leftParticipant: {fileID: 0}
+  rightParticipant: {fileID: 0}
+  sideSpeakerIsOn: 0
+  text: 'Detective Taylor Tibidee arrived at the community garden to tend to her
+    cucumbers and zucchinies.
+
+
+    She is a new gardener and has much to learn.
+
+
+    (click
+    to continue)
+
+'
