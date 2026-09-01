@@ -14,16 +14,16 @@ namespace Common.Data.Fragments
             [SerializeField] public FragmentData output1;
             [SerializeField] public FragmentData output2;
             
-            public bool IsNotValid => input1 == null || output1 == null || output2 == null;
+            public bool IsValid => input1 != null && output1 != null && output2 != null;
         }
         
         [SerializeField] public List<SplitEntry> splitMap;
 
         private void Awake()
         {
-            if (splitMap.Any(x => x.IsNotValid))
+            if (!splitMap.All(x => x.IsValid))
             {
-                Debug.LogError($"Split Mapper in {name} has a null value in one it's entries.");
+                Debug.LogError($"Split Mapper in {name} has a null value in one its entries");
             }
         }
         
@@ -38,7 +38,7 @@ namespace Common.Data.Fragments
             
             var match = splitMap.FirstOrDefault(x => x.input1 == candidates[0]);
 
-            if (match.IsNotValid) return false;
+            if (!match.IsValid) return false;
             
             results.Add(match.output1);
             results.Add(match.output2);

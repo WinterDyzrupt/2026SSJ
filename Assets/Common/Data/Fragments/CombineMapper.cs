@@ -14,16 +14,16 @@ namespace Common.Data.Fragments
             [SerializeField] public FragmentData input2;
             [SerializeField] public FragmentData output1;
             
-            public bool IsNotValid => input1 == null || input2 == null || output1 == null;
+            public bool IsValid => input1 != null && input2 != null && output1 == null;
         }
         
         [SerializeField] public List<CombineEntry> combineMap;
 
         private void Awake()
         {
-            if (combineMap.Any(x => x.IsNotValid))
+            if (!combineMap.All(x => x.IsValid))
             {
-                Debug.LogError($"Combine Mapper in {name} has a null value in one it's entries.");
+                Debug.LogError($"Combine Mapper in {name} has a null value in one its entries.");
             }
         }
 

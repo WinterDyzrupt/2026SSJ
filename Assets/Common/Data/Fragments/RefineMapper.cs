@@ -13,16 +13,16 @@ namespace Common.Data.Fragments
             [SerializeField] public FragmentData input1;
             [SerializeField] public FragmentData output1;
             
-            public bool IsNotValid => input1 == null || output1 == null;
+            public bool IsValid => input1 != null && output1 != null;
         }
         
         [SerializeField] public List<RefineEntry> refineMap;
 
         private void Awake()
         {
-            if (refineMap.Any(x => x.IsNotValid))
+            if (!refineMap.All(x => x.IsValid))
             {
-                Debug.LogError($"Refine Mapper in {name} has a null value in one it's entries.");
+                Debug.LogError($"Refine Mapper in {name} has a null value in one its entries.");
             }
         }
 

@@ -37,7 +37,6 @@ namespace Common.MonoBehaviours.MindPalace
 
         private void Awake()
         {
-            //Debug.Assert(mousedOverSlot != null, nameof(mousedOverSlot) + " != null");
             Debug.Assert(mousedOverFragment != null, nameof(mousedOverFragment) + " != null");
             Debug.Assert(inputActions != null, nameof(inputActions) + " != null");
             Debug.Assert(fragmentImage != null, nameof(fragmentImage) + " != null");
