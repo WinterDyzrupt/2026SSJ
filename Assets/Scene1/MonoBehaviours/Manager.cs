@@ -1,4 +1,5 @@
 using System;
+using Common.Data;
 using Common.Data.Dialog;
 using Common.MonoBehaviours;
 using UnityEngine;
@@ -9,54 +10,50 @@ namespace Scene1.MonoBehaviours
     {
         public DialogController dialogController;
         public Script script;
+        public BoolWrapper cluesAreInteractable;
 
         /// <summary>
         /// Placeholder logic to automatically start dialog while things-to-click-on are being developed.
         /// </summary>
-        private DateTime statTime;
-        private TimeSpan timeToWaitBeforeStartingDialog = TimeSpan.FromSeconds(2);
-        private bool isDialogStartedInProgress;
-        private bool isIntroDialogStarted;
-        private bool isTutorialDialogStarted;
-        private bool isOtherTextDialogStarted;
-        private DateTime dialogCompletionTime;
+        private DateTime _startTime;
+        private TimeSpan _timeToWaitBeforeStartingIntro = TimeSpan.FromSeconds(2);
+        private bool _introDialogStarted;
+
+        public void Awake()
+        {
+            Debug.Assert(dialogController != null, nameof(DialogController) + " expected to be non-null.");
+            Debug.Assert(script != null, nameof(Script) + " expected to be non-null.");
+            Debug.Assert(cluesAreInteractable != null, nameof(cluesAreInteractable) + " expected to be non-null.");
+        }
         
         private void Start()
         {
-            // Placeholder logic to automatically start dialog while things-to-click-on are being developed.
-            dialogCompletionTime = DateTime.Now;
+            cluesAreInteractable.Set(false);
+            // Used to automatically start the intro dialog.
+            _startTime = DateTime.Now;
         }
 
         private void Update()
         {
-            // Placeholder logic to automatically start dialog while things-to-click-on are being developed.
-            if (DateTime.Now - dialogCompletionTime > timeToWaitBeforeStartingDialog && !isDialogStartedInProgress)
+            // Automatically start the intro dialog.
+            if (!_introDialogStarted && DateTime.Now - _startTime > _timeToWaitBeforeStartingIntro)
             {
-                isDialogStartedInProgress = true;
-
-                if (!isIntroDialogStarted)
-                {
-                    dialogController.StartDialog(script.intro);
-                    isIntroDialogStarted = true;
-                }
-                else if (!isTutorialDialogStarted)
-                {
-                    dialogController.StartDialog(script.tutorial);
-                    isTutorialDialogStarted = true;
-                }
-                else if (!isOtherTextDialogStarted)
-                {
-                    dialogController.StartDialog(script.otherText);
-                    isOtherTextDialogStarted = true;
-                }
+                _introDialogStarted = true;
+                dialogController.StartDialog(script.intro);
             }
 
-            // Placeholder logic to keep track of when a dialog finishes
-            if (isDialogStartedInProgress && !dialogController.isDialogInProgress)
+            if (_introDialogStarted && !dialogController.isDialogInProgress && !cluesAreInteractable)
             {
-                dialogCompletionTime = DateTime.Now;
-                isDialogStartedInProgress = false;
+                Debug.Log("Enabling clues now that a dialog is not in progress.");
+                cluesAreInteractable.Set(true);
             }
+        }
+
+        public void OnClue1Clicked()
+        {
+            Debug.Log("OnClue1Clicked: Disabling clues and starting dialog");
+            cluesAreInteractable.Set(false);
+            dialogController.StartDialog(script.otherText);
         }
     }
 }
