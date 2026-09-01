@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e629bb3d7c3a9154eb68c5234246ad65, type: 3}
+  m_Name: A1.2-Clarification
+  m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Dialog.ScriptChunk
+  lines:
+  - {fileID: 11400000, guid: a0e9dc3d3a1bc4b449cf0b0ace05900e, type: 2}
+  - {fileID: 11400000, guid: 117c86bb401821a43948a6a87ddbe78b, type: 2}
+  - {fileID: 11400000, guid: 18060f6deda8f574b9265f908e7f6fb6, type: 2}
+  - {fileID: 11400000, guid: 8a33df839b4414047b6d4a051eb44483, type: 2}
+  - {fileID: 11400000, guid: 901c81efdae9e5c4ea81850dd887c873, type: 2}
+  - {fileID: 11400000, guid: 82926af704425454f80bbe1ffb6081b9, type: 2}

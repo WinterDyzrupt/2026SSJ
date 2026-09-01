@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Common.Data.Dialog;
 using Common.Data.Dialog.Lines;
+using Common.Data.Dialog.Participants;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,7 +40,8 @@ namespace Common.MonoBehaviours
             Debug.Assert(leftParticipant != null, nameof(leftParticipant) + " must be non-null.");
             Debug.Assert(rightParticipant != null, nameof(rightParticipant) + " must be non-null.");
 
-            CloseDialog();
+            // Assume dialog is already inactive by default
+            // CloseDialog();
         }
 
         public void CloseDialog()
@@ -52,7 +54,7 @@ namespace Common.MonoBehaviours
             leftParticipant.gameObject.SetActive(false);
             rightParticipant.color = _defaultColor;
             rightParticipant.gameObject.SetActive(false);
-            
+
             isDialogInProgress = false;
             _currentChunk = null;
         }
@@ -76,6 +78,24 @@ namespace Common.MonoBehaviours
                 _lineEnumerator = dialog.lines.GetEnumerator();
                 OnDialogProgressed();
                 dialogOverlay.SetActive(true);
+                Debug.Log("Activated dialog box for: " + dialog);
+            }
+        }
+
+        public void OnDialogProgressed()
+        {
+            Debug.Assert(_lineEnumerator != null, nameof(_lineEnumerator) + " must be non-null when progressing dialog.");
+
+            Debug.Log("Progressing dialog");
+            var nextLine = _lineEnumerator.MoveNext();
+            if (nextLine && _lineEnumerator.Current != null)
+            {
+                PopulateDialog(_lineEnumerator.Current);
+            }
+            else
+            {
+                Debug.Log("Dialog is done");
+                CloseDialog();
             }
         }
 
@@ -88,13 +108,10 @@ namespace Common.MonoBehaviours
             {
                 Debug.Log("Displaying line: " + line);
 
-                // For now, assume speaker is always on the left
-                if (line.speaker?.character != null)
-                {
-                    speakerNameTextBox.text = line.speaker.character.displayName;
-                    leftParticipant.color = line.speaker.character.color;
-                    leftParticipant.gameObject.SetActive(true);
-                }
+                PopulateImageWithParticipant(leftParticipant, line.leftParticipant);
+                PopulateImageWithParticipant(rightParticipant, line.rightParticipant);
+
+                SetSpeaker(line);
 
                 dialogTextBox.text = line.text;
             }
@@ -104,21 +121,59 @@ namespace Common.MonoBehaviours
             }
         }
 
-        public void OnDialogProgressed()
+        private void PopulateImageWithParticipant(Image image, DialogParticipant participant)
         {
-            Debug.Assert(_lineEnumerator != null, nameof(_lineEnumerator) + " must be non-null when progressing dialog.");
-
-            Debug.Log("DialogController.OnDialogProgressed");
-            var nextLine = _lineEnumerator.MoveNext();
-            if (nextLine && _lineEnumerator.Current != null)
+            if (participant?.character != null)
             {
-                PopulateDialog(_lineEnumerator.Current);
+                image.color = participant.character.color;
+                image.gameObject.SetActive(true);
             }
             else
             {
-                Debug.Log("Dialog is done");
-                CloseDialog();
+                image.color = Color.white;
+                image.gameObject.SetActive(false);
             }
+        }
+
+        private void SetSpeaker(Line line)
+        {
+            Debug.Log("Setting speaker; Line: " + line);
+            switch (line.sideSpeakerIsOn)
+            {
+                case ParticipantSide.Left:
+                    SetSpeakerInner(line.leftParticipant, line.rightParticipant, rightParticipant);
+                    break;
+                case ParticipantSide.Right:
+                    SetSpeakerInner(line.rightParticipant, line.leftParticipant, leftParticipant);
+                    break;
+                case ParticipantSide.None:
+                default:
+                    // No speaker is fine for narrator/tutorial messages.
+                    speakerNameTextBox.text = string.Empty;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Sets speaker name and dims the listener.
+        /// </summary>
+        /// <param name="speaker"></param>
+        /// <param name="listener"></param>
+        /// <param name="listenerImage"></param>
+        private void SetSpeakerInner(DialogParticipant speaker, DialogParticipant listener, Image listenerImage)
+        {
+            Debug.LogWarning("SetSpeakerInner: " + speaker);
+            if (listener != null)
+            {
+                // TODO: dim listenerImage
+            }
+
+            if (speaker == null)
+            {
+                Debug.LogError("Speaker side is set, but speaker is null.");
+            }
+
+            speakerNameTextBox.text = speaker?.character.displayName;
         }
     }
 }

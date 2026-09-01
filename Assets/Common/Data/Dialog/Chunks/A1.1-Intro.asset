@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e629bb3d7c3a9154eb68c5234246ad65, type: 3}
-  m_Name: otherText
+  m_Name: A1.1-Intro
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Dialog.ScriptChunk
   lines:
-  - {fileID: 11400000, guid: a41bec5621580c64889ab39c768a21af, type: 2}
-  - {fileID: 11400000, guid: ece053bf2eaa0fe4c8b2ac5ed3d0a2d6, type: 2}
+  - {fileID: 11400000, guid: 8b491d1bc0b285d408c63bfd44767eb5, type: 2}
+  - {fileID: 11400000, guid: 1975315626c72164aae9715e78c18344, type: 2}
+  - {fileID: 11400000, guid: eddea577aac709548adeba23b7cf7ec1, type: 2}
+  - {fileID: 11400000, guid: 60166020bce91b04280176e1cba86e50, type: 2}
+  - {fileID: 11400000, guid: b04fabb5e71f6f348b6029fb8fbce692, type: 2}

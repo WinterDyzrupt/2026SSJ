@@ -14,7 +14,7 @@ namespace Common.Data.Fragments
             [SerializeField] public FragmentData input2;
             [SerializeField] public FragmentData output1;
             
-            public bool IsValid => input1 != null && input2 != null && output1 == null;
+            public bool IsValid => input1 != null && input2 != null && output1 != null;
         }
         
         [SerializeField] public List<CombineEntry> combineMap;
