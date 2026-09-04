@@ -162,7 +162,7 @@ namespace Common.MonoBehaviours
         /// <param name="listenerImage"></param>
         private void SetSpeakerInner(DialogParticipant speaker, DialogParticipant listener, Image listenerImage)
         {
-            Debug.LogWarning("SetSpeakerInner: " + speaker);
+            Debug.Log("SetSpeakerInner: " + speaker);
             if (listener != null)
             {
                 // TODO: dim listenerImage

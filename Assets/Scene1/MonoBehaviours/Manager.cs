@@ -35,24 +35,25 @@ namespace Scene1.MonoBehaviours
 
         private void Update()
         {
-            // Automatically start the intro dialog.
+            // Automatically start the intro dialog after a short delay.
             if (!_introDialogStarted && DateTime.Now - _startTime > _timeToWaitBeforeStartingIntro)
             {
                 _introDialogStarted = true;
                 dialogController.StartDialog(script.intro);
             }
 
+            // Intro or subsequent dialog ended.
             if (_introDialogStarted && !dialogController.isDialogInProgress && !cluesAreInteractable)
             {
                 Debug.Log("Enabling clues now that a dialog is not in progress.");
                 cluesAreInteractable.Set(true);
             }
+            
         }
 
         public void OnClue1Clicked()
         {
             Debug.Log("OnClue1Clicked: Disabling clues and starting dialog");
-            cluesAreInteractable.Set(false);
             dialogController.StartDialog(script.otherText);
         }
     }
