@@ -160,6 +160,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6038121037277064253, guid: fd6dc3fbc30b7144ca2a6278ecbe96d5, type: 3}
+      propertyPath: isInteractable
+      value: 
+      objectReference: {fileID: 11400000, guid: f5754487958ea684b9284f0a2eb18f7c, type: 2}
     - target: {fileID: 6955816553811022799, guid: fd6dc3fbc30b7144ca2a6278ecbe96d5, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -573,6 +577,7 @@ MonoBehaviour:
   dialogController: {fileID: 627482639}
   script: {fileID: 11400000, guid: 7fd16381f18b18b48a2c0310c313408c, type: 2}
   cluesAreInteractable: {fileID: 11400000, guid: 7595f9abdb14f9f48b164792b10cf595, type: 2}
+  isClue1Interactable: {fileID: 11400000, guid: f5754487958ea684b9284f0a2eb18f7c, type: 2}
 --- !u!1 &1361637001
 GameObject:
   m_ObjectHideFlags: 0
