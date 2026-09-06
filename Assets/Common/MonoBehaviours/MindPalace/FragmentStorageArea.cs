@@ -10,9 +10,6 @@ namespace Common.MonoBehaviours.MindPalace
         [SerializeField] private List<FragmentDropSlot> slots;
         [SerializeField] private GameObject fragmentPrefab;
         [SerializeField] private Transform fragmentParent;
-
-        [Header("Initial fragments to spawn for testing")]
-        [SerializeField] private List<FragmentData> initialFragments;
         
         public readonly List<FragmentData> UsedFragments = new();
 
@@ -26,11 +23,6 @@ namespace Common.MonoBehaviours.MindPalace
             // this would cause any grabbed transform data to be wrong
             Canvas.ForceUpdateCanvases();
         }
-
-        private void Start()
-        {
-            AddNewFragment(initialFragments);
-        }
         
         // TODO: Wire this up to an event that exists in a scriptable object
         public void AddNewFragment(List<FragmentData> newFragmentsData)
@@ -40,7 +32,7 @@ namespace Common.MonoBehaviours.MindPalace
             foreach (var newFragmentData in newFragmentsData)
             {
                 var availableSlot = slots.FirstOrDefault(x => !x.IsOccupied);
-                if (availableSlot == null)
+                if (!availableSlot)
                 {
                     Debug.LogError("No available slot found for new fragment!");
                     return;
