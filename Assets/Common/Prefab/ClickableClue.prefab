@@ -128,7 +128,9 @@ MonoBehaviour:
   buttonImage: {fileID: 8906897745732829642}
   glowImage: {fileID: 8100500341926513409}
   button: {fileID: 2248547863830046692}
-  isInteractable: {fileID: 11400000, guid: 7595f9abdb14f9f48b164792b10cf595, type: 2}
+  canBeInteractedWithMultipleTimes: 0
+  isInteractable: {fileID: 0}
+  cluesAreInteractable: {fileID: 11400000, guid: 7595f9abdb14f9f48b164792b10cf595, type: 2}
   glowColor: {r: 0, g: 0.87526274, b: 1, a: 1}
   glowSize: 1.05
   pulseSize: 0.1
