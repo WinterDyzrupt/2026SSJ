@@ -6,12 +6,12 @@ namespace Common.Data
     [CreateAssetMenu(fileName = "BoolWrapper", menuName = "Data/Bool Wrapper")]
     public class BoolWrapper : ScriptableObject
     {
-        [SerializeField] private bool currentValue;
-        [SerializeField] public bool defaultValue;
+        public bool currentValue;
+        public bool defaultValue;
 
         public event Action Changed;
 
-        private void Awake()
+        private void OnEnable()
         {
             currentValue = defaultValue;
         }
