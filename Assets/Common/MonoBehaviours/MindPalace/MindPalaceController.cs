@@ -8,15 +8,15 @@ namespace Common.MonoBehaviours.MindPalace
     public class MindPalaceController : MonoBehaviour
     {
         [Header("Wrappers")]
-        [SerializeField] private FragmentListWrapper newFragmentsToAdd;
+        [SerializeField] private FragmentDataListWrapper newFragmentsToAdd;
         [SerializeField] private BoolWrapper isMindPalaceActive;
         
         [Header("Components")]
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private FragmentStorageArea storageArea;
 
-        // [Header("Initial fragments to spawn for testing")]
-        // [SerializeField] private List<FragmentData> initialFragments;
+        [Header("Initial fragments to spawn for testing")]
+        [SerializeField] private List<FragmentData> initialFragments;
 
         private List<FragmentData> _queuedFragments;
 
@@ -30,9 +30,15 @@ namespace Common.MonoBehaviours.MindPalace
             _queuedFragments = new();
 
             newFragmentsToAdd.NewListProvided += AddFragmentsToQueue;
+            newFragmentsToAdd.NewFragmentAdded += AddFragmentToQueue;
             isMindPalaceActive.Changed += ToggleMindPalace;
-            
-            
+        }
+
+        private void OnDestroy()
+        {
+            newFragmentsToAdd.NewListProvided -= AddFragmentsToQueue;
+            newFragmentsToAdd.NewFragmentAdded -= AddFragmentToQueue;
+            isMindPalaceActive.Changed -= ToggleMindPalace;
         }
 
         private void Update()
@@ -41,7 +47,7 @@ namespace Common.MonoBehaviours.MindPalace
             // for testing. Have dialogue control initial fragments instead.
             if (initialFragments.Count > 0)
             {
-                newFragmentsToAdd.NewList(initialFragments);
+                newFragmentsToAdd.SetList(initialFragments);
                 initialFragments.Clear();
             }
             */
@@ -52,6 +58,13 @@ namespace Common.MonoBehaviours.MindPalace
         private void AddFragmentsToQueue(List<FragmentData> newFragments)
         {
             _queuedFragments.AddRange(newFragments);
+            
+            CheckToGenerateFragments();
+        }
+
+        private void AddFragmentToQueue(FragmentData newFragment)
+        {
+            _queuedFragments.Add(newFragment);
             
             CheckToGenerateFragments();
         }

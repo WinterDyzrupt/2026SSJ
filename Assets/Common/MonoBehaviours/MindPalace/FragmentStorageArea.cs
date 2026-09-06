@@ -10,8 +10,7 @@ namespace Common.MonoBehaviours.MindPalace
         [SerializeField] private List<FragmentDropSlot> slots;
         [SerializeField] private GameObject fragmentPrefab;
         [SerializeField] private Transform fragmentParent;
-        
-        public readonly List<FragmentData> UsedFragments = new();
+        [SerializeField] private FragmentDataListWrapper usedFragments;
 
         private void Awake()
         {
@@ -47,9 +46,10 @@ namespace Common.MonoBehaviours.MindPalace
 
         private void ForceSlotUpdate()
         {
+            List<FragmentData> usedList = usedFragments;
             foreach (var slot in slots)
             {
-                if(UsedFragments.Contains(slot.OccupiedFragment?.Data)) slot.UnregisterFragment();
+                if(usedList.Contains(slot.OccupiedFragment?.Data)) slot.UnregisterFragment();
             }
         }
     }
