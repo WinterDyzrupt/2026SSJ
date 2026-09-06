@@ -32,6 +32,8 @@ namespace Common.MonoBehaviours.MindPalace
             newFragmentsToAdd.NewListProvided += AddFragmentsToQueue;
             newFragmentsToAdd.NewFragmentAdded += AddFragmentToQueue;
             isMindPalaceActive.Changed += ToggleMindPalace;
+
+            ToggleMindPalace();
         }
 
         private void OnDestroy()
