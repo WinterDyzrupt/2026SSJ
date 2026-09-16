@@ -9,25 +9,26 @@ namespace Common.Data.Fragments
     {
         [SerializeField] private List<FragmentData> currentList;
 
-        public event Action<List<FragmentData>> NewListProvided;
         public event Action<FragmentData> NewFragmentAdded;
 
         private void OnEnable()
         {
             currentList = new();
         }
-
-        public void SetList(List<FragmentData> newList)
-        {
-            if (currentList == newList) return;
-            currentList = newList;
-            NewListProvided?.Invoke(currentList);
-        }
+        
         
         public void Add(FragmentData fragment)
         {
             currentList.Add(fragment);
             NewFragmentAdded?.Invoke(fragment);
+        }
+
+        public void Add(List<FragmentData> fragments)
+        {
+            foreach (var fragment in fragments)
+            {
+                Add(fragment);
+            }
         }
         
         public static implicit operator List<FragmentData>(FragmentDataListWrapper wrapper) => wrapper.currentList;

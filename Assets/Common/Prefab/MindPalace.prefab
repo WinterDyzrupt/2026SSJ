@@ -1318,13 +1318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 963199b324ec4d479213da601348aa73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Common.MonoBehaviours.MindPalace.MindPalaceController
-  newFragmentsToAdd: {fileID: 11400000, guid: a65edb92a8a604f4fbe1c87ba39026ce, type: 2}
   isMindPalaceActive: {fileID: 11400000, guid: 38af6bf95c5918f4d9c029aa22defa15, type: 2}
   canvasGroup: {fileID: 6697627272452938124}
   storageArea: {fileID: 116869768538315477}
-  initialFragments:
-  - {fileID: 11400000, guid: 3a3f8fb6b23183542b4d2b4677c65e0d, type: 2}
-  - {fileID: 11400000, guid: 8066dbe8619b7d9458361ebe69c63771, type: 2}
 --- !u!114 &3777302861062120587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1432,6 +1428,11 @@ MonoBehaviour:
   fragmentPrefab: {fileID: 8848455114493616410, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
   fragmentParent: {fileID: 9221287966889159590}
   usedFragments: {fileID: 11400000, guid: 7da858c85401d22449e32b865196520f, type: 2}
+  isMindPalaceActive: {fileID: 11400000, guid: 38af6bf95c5918f4d9c029aa22defa15, type: 2}
+  newFragmentsToAdd: {fileID: 11400000, guid: a65edb92a8a604f4fbe1c87ba39026ce, type: 2}
+  initialFragments:
+  - {fileID: 11400000, guid: 3a3f8fb6b23183542b4d2b4677c65e0d, type: 2}
+  - {fileID: 11400000, guid: 8066dbe8619b7d9458361ebe69c63771, type: 2}
 --- !u!222 &4092429062628646691
 CanvasRenderer:
   m_ObjectHideFlags: 0

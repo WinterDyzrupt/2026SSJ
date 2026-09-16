@@ -18,10 +18,11 @@ namespace Common.MonoBehaviours.MindPalace
             Debug.Assert(mapper != null, nameof(mapper) + " != null");
             Debug.Assert(slots != null, nameof(slots) + " != null");
             Debug.Assert(createFragmentWrapper != null, $"{nameof(createFragmentWrapper)} != null");
+            Debug.Assert(usedFragmentsWrapper != null, $"{nameof(usedFragmentsWrapper)} != null");
 
             foreach (var slot in slots)
             {
-                slot.OccupancyChanged += CheckFragmentsAgainstMap;
+                slot.OccupancyChanged += ProcessSlottedFragments;
             }
         }
 
@@ -29,11 +30,11 @@ namespace Common.MonoBehaviours.MindPalace
         {            
             foreach (var slot in slots)
             {
-                slot.OccupancyChanged -= CheckFragmentsAgainstMap;
+                slot.OccupancyChanged -= ProcessSlottedFragments;
             }
         }
 
-        private void CheckFragmentsAgainstMap()
+        private void ProcessSlottedFragments()
         {
             var allFragmentData = slots
                 .Where(x => x.OccupiedFragment)
@@ -49,7 +50,7 @@ namespace Common.MonoBehaviours.MindPalace
                     slot.UnregisterFragment();
                 }
                 
-                createFragmentWrapper.SetList(results);
+                createFragmentWrapper.Add(results);
             }
         }
     }
