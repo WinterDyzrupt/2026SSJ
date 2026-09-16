@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Common.Data;
 using Common.Data.Fragments;
 using UnityEngine;
 
@@ -10,37 +11,56 @@ namespace Common.MonoBehaviours.MindPalace
         [SerializeField] private List<FragmentDropSlot> slots;
         [SerializeField] private GameObject fragmentPrefab;
         [SerializeField] private Transform fragmentParent;
-
-        [Header("Initial fragments to spawn for testing")]
-        [SerializeField] private List<FragmentData> initialFragments;
+        [SerializeField] private FragmentDataListWrapper usedFragments;
         
-        public readonly List<FragmentData> UsedFragments = new();
+        [Header("Wrappers")]
+        [SerializeField] private BoolWrapper isMindPalaceActive;
+        [SerializeField] private FragmentDataListWrapper newFragmentsToAdd;
 
+        [SerializeField] private List<FragmentData> initialFragments;
+        private readonly List<FragmentData> _queuedFragments = new();
+        
         private void Awake()
         {
             Debug.Assert(slots.Count != 0,"No slot assigned to the Fragment Storage Area.");
             Debug.Assert(fragmentPrefab != null, "No fragment prefab assigned to the Fragment Storage Area.");
             Debug.Assert(fragmentParent != null, "No fragment parent assigned to the Fragment Storage Area.");
+            Debug.Assert(isMindPalaceActive != null, "No fragment parent active assigned to the Fragment Storage Area.");
+            Debug.Assert(newFragmentsToAdd != null, "No fragment to be added to the Fragment Storage Area.");
+            
+            
+            newFragmentsToAdd.NewFragmentAdded += AddFragmentToQueue;
             
             // If we don't force an update, Canvas object don't have proper rect transform positions
             // this would cause any grabbed transform data to be wrong
             Canvas.ForceUpdateCanvases();
         }
 
-        private void Start()
+        private void OnDestroy()
         {
-            AddNewFragment(initialFragments);
-        }
+            newFragmentsToAdd.NewFragmentAdded -= AddFragmentToQueue;
+        }        
         
-        // TODO: Wire this up to an event that exists in a scriptable object
-        public void AddNewFragment(List<FragmentData> newFragmentsData)
+        private void Update()
+        {
+            /*// for testing. Have dialogue control initial fragments instead.
+            if (initialFragments.Count > 0)
+            {
+                newFragmentsToAdd.Add(initialFragments);
+                initialFragments.Clear();
+            }*/
+            
+            CheckToGenerateFragments();
+        }
+
+        private void AddNewFragment(List<FragmentData> newFragmentsData)
         {
             ForceSlotUpdate();
             
             foreach (var newFragmentData in newFragmentsData)
             {
                 var availableSlot = slots.FirstOrDefault(x => !x.IsOccupied);
-                if (availableSlot == null)
+                if (!availableSlot)
                 {
                     Debug.LogError("No available slot found for new fragment!");
                     return;
@@ -55,10 +75,26 @@ namespace Common.MonoBehaviours.MindPalace
 
         private void ForceSlotUpdate()
         {
+            List<FragmentData> usedList = usedFragments;
             foreach (var slot in slots)
             {
-                if(UsedFragments.Contains(slot.OccupiedFragment?.Data)) slot.UnregisterFragment();
+                if(usedList.Contains(slot.OccupiedFragment?.Data)) slot.UnregisterFragment();
             }
+        }
+
+        private void AddFragmentToQueue(FragmentData newFragment)
+        {
+            _queuedFragments.Add(newFragment);
+            
+            CheckToGenerateFragments();
+        }
+        
+        private void CheckToGenerateFragments()
+        {
+            if (!isMindPalaceActive || _queuedFragments.Count < 1) return;
+            
+            AddNewFragment(_queuedFragments);
+            _queuedFragments.Clear();
         }
     }
 }

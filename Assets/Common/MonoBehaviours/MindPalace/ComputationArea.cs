@@ -9,17 +9,20 @@ namespace Common.MonoBehaviours.MindPalace
     {
         [SerializeField] private FragmentMapper mapper;
         [SerializeField] private List<FragmentDropSlot> slots;
-        [SerializeField] private FragmentStorageArea storageArea;
+        [SerializeField] private FragmentDataListWrapper createFragmentWrapper;
+        [SerializeField] private FragmentDataListWrapper usedFragmentsWrapper;
+        
 
         private void Awake()
         {
             Debug.Assert(mapper != null, nameof(mapper) + " != null");
             Debug.Assert(slots != null, nameof(slots) + " != null");
-            Debug.Assert(storageArea != null, $"{nameof(storageArea)} != null");
+            Debug.Assert(createFragmentWrapper != null, $"{nameof(createFragmentWrapper)} != null");
+            Debug.Assert(usedFragmentsWrapper != null, $"{nameof(usedFragmentsWrapper)} != null");
 
             foreach (var slot in slots)
             {
-                slot.OccupancyChanged += CheckFragmentsAgainstMap;
+                slot.OccupancyChanged += ProcessSlottedFragments;
             }
         }
 
@@ -27,14 +30,14 @@ namespace Common.MonoBehaviours.MindPalace
         {            
             foreach (var slot in slots)
             {
-                slot.OccupancyChanged -= CheckFragmentsAgainstMap;
+                slot.OccupancyChanged -= ProcessSlottedFragments;
             }
         }
 
-        private void CheckFragmentsAgainstMap()
+        private void ProcessSlottedFragments()
         {
             var allFragmentData = slots
-                .Where(x => x.OccupiedFragment != null)
+                .Where(x => x.OccupiedFragment)
                 .Select(x => x.OccupiedFragment.Data)
                 .ToList();
 
@@ -42,12 +45,12 @@ namespace Common.MonoBehaviours.MindPalace
             {
                 foreach (var slot in slots)
                 {
-                    storageArea.UsedFragments.Add(slot.OccupiedFragment.Data);
+                    usedFragmentsWrapper.Add(slot.OccupiedFragment.Data);
                     slot.OccupiedFragment.DestroyFragment();
                     slot.UnregisterFragment();
                 }
                 
-                storageArea.AddNewFragment(results);
+                createFragmentWrapper.Add(results);
             }
         }
     }
