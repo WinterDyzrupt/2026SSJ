@@ -15,7 +15,6 @@ namespace Scene1.MonoBehaviours
         public Script script;
         public BoolWrapper cluesAreInteractable;
         public NewClueQueue newClueQueue;
-        public FragmentData clue1;
 
         /// <summary>
         /// Placeholder logic to automatically start dialog while things-to-click-on are being developed.
@@ -31,7 +30,6 @@ namespace Scene1.MonoBehaviours
             Debug.Assert(script != null, nameof(Script) + " expected to be non-null.");
             Debug.Assert(cluesAreInteractable != null, nameof(cluesAreInteractable) + " expected to be non-null.");
             Debug.Assert(newClueQueue != null, nameof(newClueQueue) + " expected to be non-null.");
-            Debug.Assert(clue1 != null, nameof(clue1) + " expected to be non-null.");
         }
 
         private void Start()
@@ -60,7 +58,7 @@ namespace Scene1.MonoBehaviours
         
         public void OnClueSourceClicked(FragmentData clue)
         {
-            Debug.Log("OnClue1Clicked: Disabling clues and starting dialog");
+            Debug.Log("OnClueSourceClicked: Disabling clues and starting dialog");
             dialogController.StartDialog(script.otherText, clue);
         }
 
