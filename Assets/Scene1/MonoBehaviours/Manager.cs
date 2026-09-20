@@ -1,7 +1,9 @@
 using System;
 using Common.Data;
 using Common.Data.Dialog;
+using Common.Data.Fragments;
 using Common.MonoBehaviours;
+using Common.MonoBehaviours.MindPalace;
 using UnityEngine;
 
 namespace Scene1.MonoBehaviours
@@ -9,8 +11,11 @@ namespace Scene1.MonoBehaviours
     public class Manager : MonoBehaviour
     {
         public DialogController dialogController;
+        public MindPalaceController mindPalaceController;
         public Script script;
         public BoolWrapper cluesAreInteractable;
+        public NewClueQueue newClueQueue;
+        public FragmentData clue1;
 
         /// <summary>
         /// Placeholder logic to automatically start dialog while things-to-click-on are being developed.
@@ -22,10 +27,13 @@ namespace Scene1.MonoBehaviours
         public void Awake()
         {
             Debug.Assert(dialogController != null, nameof(DialogController) + " expected to be non-null.");
+            Debug.Assert(mindPalaceController != null,  nameof(mindPalaceController) + " must be non-null.");
             Debug.Assert(script != null, nameof(Script) + " expected to be non-null.");
             Debug.Assert(cluesAreInteractable != null, nameof(cluesAreInteractable) + " expected to be non-null.");
+            Debug.Assert(newClueQueue != null, nameof(newClueQueue) + " expected to be non-null.");
+            Debug.Assert(clue1 != null, nameof(clue1) + " expected to be non-null.");
         }
-        
+
         private void Start()
         {
             cluesAreInteractable.Set(false);
@@ -48,13 +56,18 @@ namespace Scene1.MonoBehaviours
                 Debug.Log("Enabling clues now that a dialog is not in progress.");
                 cluesAreInteractable.Set(true);
             }
-            
         }
-
-        public void OnClue1Clicked()
+        
+        public void OnClueSourceClicked(FragmentData clue)
         {
             Debug.Log("OnClue1Clicked: Disabling clues and starting dialog");
-            dialogController.StartDialog(script.otherText);
+            dialogController.StartDialog(script.otherText, clue);
+        }
+
+        public void MindPalaceButtonClicked()
+        {
+            Debug.Log("MindPalace button clicked");
+            mindPalaceController.OpenMindPalace();
         }
     }
 }

@@ -30,6 +30,11 @@ namespace Common.Data
             Changed?.Invoke();
         }
 
+        public override string ToString()
+        {
+            return currentValue.ToString();
+        }
+
         public static implicit operator bool(BoolWrapper value) => value.currentValue;
     }
 }

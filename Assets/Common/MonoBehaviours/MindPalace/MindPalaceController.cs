@@ -1,12 +1,12 @@
-using Common.Data;
+//using Common.Data;
 using UnityEngine;
 
 namespace Common.MonoBehaviours.MindPalace
 {
     public class MindPalaceController : MonoBehaviour
     {
-        [Header("Wrappers")]
-        [SerializeField] private BoolWrapper isMindPalaceActive;
+        //[Header("Wrappers")]
+        //[SerializeField] private BoolWrapper isMindPalaceActive;
         
         [Header("Components")]
         [SerializeField] private CanvasGroup canvasGroup;
@@ -14,26 +14,43 @@ namespace Common.MonoBehaviours.MindPalace
 
         private void Awake()
         {
-            Debug.Assert(isMindPalaceActive != null, nameof(isMindPalaceActive) + " != null");
+            //Debug.Assert(isMindPalaceActive != null, nameof(isMindPalaceActive) + " != null");
             Debug.Assert(canvasGroup != null, nameof(canvasGroup) + " != null");
             Debug.Assert(storageArea != null, nameof(storageArea) + " != null");
             
-            isMindPalaceActive.Changed += UpdateVisibility;
+            //isMindPalaceActive.Changed += UpdateVisibility;
 
-            UpdateVisibility();
+            //UpdateVisibility();
         }
 
-        private void OnDestroy()
-        {
-            isMindPalaceActive.Changed -= UpdateVisibility;
-        }
-        
+        // private void OnDestroy()
+        // {
+        //     //isMindPalaceActive.Changed -= UpdateVisibility;
+        // }
 
-        private void UpdateVisibility()
+        // private void UpdateVisibility()
+        // {
+        //     //Debug.LogError("Mind palace visibility: " + isMindPalaceActive);
+        //     // canvasGroup.interactable = isMindPalaceActive;
+        //     // canvasGroup.blocksRaycasts = isMindPalaceActive;
+        //     // canvasGroup.alpha = isMindPalaceActive ? 1 : 0;
+        //     
+        //     //gameObject.SetActive(isMindPalaceActive.currentValue);
+        // }
+
+        public void OpenMindPalace()
         {
-            canvasGroup.interactable = isMindPalaceActive;
-            canvasGroup.blocksRaycasts = isMindPalaceActive;
-            canvasGroup.alpha = isMindPalaceActive ? 1 : 0;
+            SetVisibility(true);
+        }
+
+        public void CloseMindPalace()
+        {
+            SetVisibility(false);
+        }
+
+        private void SetVisibility(bool visible)
+        {
+            gameObject.SetActive(visible);
         }
     }
 }
