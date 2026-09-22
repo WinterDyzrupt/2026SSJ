@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Common.MonoBehaviours
 {
-    public class ClickableClue : MonoBehaviour
+    public class ButtonWithGlow : MonoBehaviour
     {
         public Image buttonImage;
         public Image glowImage;
@@ -13,17 +13,19 @@ namespace Common.MonoBehaviours
 
         public bool canBeInteractedWithMultipleTimes;
 
+        public bool hideWhenNotInteractable;
+
         /// <summary>
-        /// Whether this specific clue is interactable.  This is set to false when this clue is clicked, preventing
-        /// this clue from being clicked again.
+        /// Whether this specific button is interactable.  This is set to false when this button is clicked, preventing
+        /// this button from being clicked again.
         /// </summary>
         public BoolWrapper isInteractable;
         
         /// <summary>
-        /// Whether any/all clues are interactable.  This is set to false when dialog or the mind palace are visible.
-        /// This prevents clues from glowing/etc. when something else is happening.
+        /// Whether a bulk of buttons are interactable.  This is set to false when dialog or the mind palace are visible.
+        /// This prevents the bulk of buttons from glowing/etc. when something else is happening.
         /// </summary>
-        public BoolWrapper cluesAreInteractable;
+        public BoolWrapper isBulkInteractable;
 
         [Header("Glow Variables")]
         public Color glowColor;
@@ -41,12 +43,12 @@ namespace Common.MonoBehaviours
             Debug.Assert(glowImage != null, $"{nameof(glowImage)} wasn't assigned.");
             Debug.Assert(button != null, $"{nameof(button)} wasn't assigned.");
             Debug.Assert(isInteractable != null, $"{nameof(isInteractable)} wasn't assigned.");
-            Debug.Assert(cluesAreInteractable != null, $"{nameof(cluesAreInteractable)} wasn't assigned.");
+            Debug.Assert(isBulkInteractable != null, $"{nameof(isBulkInteractable)} wasn't assigned.");
 
             glowImage.sprite = buttonImage.sprite;
             glowImage.color = glowColor;
 
-            cluesAreInteractable.Changed += SetInteractable;
+            isBulkInteractable.Changed += SetInteractable;
             isInteractable.Changed += SetInteractable;
 
             SetInteractable();
@@ -54,11 +56,11 @@ namespace Common.MonoBehaviours
 
         private void OnDestroy()
         {
-            cluesAreInteractable.Changed -= SetInteractable;
+            isBulkInteractable.Changed -= SetInteractable;
             isInteractable.Changed -= SetInteractable;
         }
 
-        public void OnClueClicked()
+        public void OnClicked()
         {
             if (!canBeInteractedWithMultipleTimes)
             {
@@ -67,23 +69,28 @@ namespace Common.MonoBehaviours
         }
 
         /// <summary>
-        /// Sets this clue to be interactable based on the clue-specific flag and the all-clues flag.
+        /// Sets this button to be interactable based on the button-specific flag and the bulk-button flag.
         /// </summary>
         private void SetInteractable()
         {
-            var isThisClueInteractable = isInteractable && cluesAreInteractable; 
+            var isThisButtonInteractable = isInteractable && isBulkInteractable; 
 
-            SetInteractable(isThisClueInteractable);
+            SetInteractable(isThisButtonInteractable);
         }
 
         private void SetInteractable(bool value)
         {
+            if (hideWhenNotInteractable)
+            {
+                Debug.Log("Hidable button visibility: " + value);
+                gameObject.SetActive(value);
+            }
             button.interactable = value;
             glowImage.enabled = value;
-            if (!_isAnimating && value)  StartCoroutine(AnimateClue());
+            if (!_isAnimating && value)  StartCoroutine(AnimateGlow());
         }
 
-        private IEnumerator AnimateClue()
+        private IEnumerator AnimateGlow()
         {
             _isAnimating = true;
 

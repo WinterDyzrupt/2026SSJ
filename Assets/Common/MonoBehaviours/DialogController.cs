@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Common.Data.Dialog;
 using Common.Data.Dialog.Lines;
 using Common.Data.Dialog.Participants;
+using Common.Data.Fragments;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,6 +29,9 @@ namespace Common.MonoBehaviours
         /// </summary>
         public bool isDialogInProgress;
 
+        public FragmentDataListWrapper newClues;
+
+        private FragmentData _clueToAddAfterDialogCompletes;
         private ScriptChunk _currentChunk;
         private IEnumerator<Line> _lineEnumerator;
         private readonly Color _defaultColor = Color.white;
@@ -39,14 +43,15 @@ namespace Common.MonoBehaviours
             Debug.Assert(dialogTextBox != null, nameof(dialogTextBox) + " must be non-null.");
             Debug.Assert(leftParticipant != null, nameof(leftParticipant) + " must be non-null.");
             Debug.Assert(rightParticipant != null, nameof(rightParticipant) + " must be non-null.");
+            Debug.Assert(newClues != null, nameof(newClues) + " must be non-null.");
 
             // Assume dialog is already inactive by default
             // CloseDialog();
         }
 
-        public void CloseDialog()
+        private void CloseDialog()
         {
-            Debug.Log("DialogBox.Close");
+            Debug.Log("Closing dialog box.");
             dialogOverlay.SetActive(false);
             speakerNameTextBox.text = string.Empty;
             dialogTextBox.text = string.Empty;
@@ -57,13 +62,21 @@ namespace Common.MonoBehaviours
 
             isDialogInProgress = false;
             _currentChunk = null;
+
+            if (_clueToAddAfterDialogCompletes != null)
+            {
+                Debug.Log("Adding new clue after dialog completion: " + _clueToAddAfterDialogCompletes); 
+                newClues.Add(_clueToAddAfterDialogCompletes);
+            }
         }
 
-        public void StartDialog(ScriptChunk dialog)
+        public void StartDialog(ScriptChunk dialog, FragmentData newClue = null)
         {
             Debug.Assert(dialog != null, nameof(dialog) + " must be non-null.");
             Debug.Assert(dialog.lines != null, nameof(dialog.lines) + " must be non-null.");
-            Debug.Assert(dialog.lines.Count > 0, nameof(dialog.lines) + " must have at least one line/");
+            Debug.Assert(dialog.lines.Count > 0, nameof(dialog.lines) + " must have at least one line.");
+
+            _clueToAddAfterDialogCompletes = newClue;
 
             if (isDialogInProgress)
             {

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9caeed349a42bcaa6bdba7169ed090, type: 3}
   m_Name: CreateFragmentInMindPalace
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Fragments.FragmentListWrapper
-  currentList:
-  - {fileID: 0}
+  currentList: []
+  isElementPresent: {fileID: 11400000, guid: 677961d8dc7e80b419f64e61a546fa79, type: 2}
