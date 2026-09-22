@@ -1198,8 +1198,6 @@ MonoBehaviour:
   mindPalaceController: {fileID: 358391422}
   script: {fileID: 11400000, guid: 7fd16381f18b18b48a2c0310c313408c, type: 2}
   cluesAreInteractable: {fileID: 11400000, guid: 7595f9abdb14f9f48b164792b10cf595, type: 2}
-  newClueQueue: {fileID: 11400000, guid: 1a59be29709607e48883c4b5251cb633, type: 2}
-  clue1: {fileID: 11400000, guid: 3a3f8fb6b23183542b4d2b4677c65e0d, type: 2}
 --- !u!1 &1361637001
 GameObject:
   m_ObjectHideFlags: 0
@@ -1551,6 +1549,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7021917135755419356, guid: 564d37661ecab69439346d2c7a9e9951, type: 3}
+      propertyPath: newClues
+      value: 
+      objectReference: {fileID: 11400000, guid: a65edb92a8a604f4fbe1c87ba39026ce, type: 2}
     - target: {fileID: 7021917135755419356, guid: 564d37661ecab69439346d2c7a9e9951, type: 3}
       propertyPath: newClueQueue
       value: 

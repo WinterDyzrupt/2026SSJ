@@ -14,7 +14,6 @@ namespace Scene1.MonoBehaviours
         public MindPalaceController mindPalaceController;
         public Script script;
         public BoolWrapper cluesAreInteractable;
-        public NewClueQueue newClueQueue;
 
         /// <summary>
         /// Placeholder logic to automatically start dialog while things-to-click-on are being developed.
@@ -29,7 +28,6 @@ namespace Scene1.MonoBehaviours
             Debug.Assert(mindPalaceController != null,  nameof(mindPalaceController) + " must be non-null.");
             Debug.Assert(script != null, nameof(Script) + " expected to be non-null.");
             Debug.Assert(cluesAreInteractable != null, nameof(cluesAreInteractable) + " expected to be non-null.");
-            Debug.Assert(newClueQueue != null, nameof(newClueQueue) + " expected to be non-null.");
         }
 
         private void Start()

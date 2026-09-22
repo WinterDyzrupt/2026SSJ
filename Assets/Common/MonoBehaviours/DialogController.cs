@@ -29,7 +29,7 @@ namespace Common.MonoBehaviours
         /// </summary>
         public bool isDialogInProgress;
 
-        public NewClueQueue newClueQueue;
+        public FragmentDataListWrapper newClues;
 
         private FragmentData _clueToAddAfterDialogCompletes;
         private ScriptChunk _currentChunk;
@@ -43,7 +43,7 @@ namespace Common.MonoBehaviours
             Debug.Assert(dialogTextBox != null, nameof(dialogTextBox) + " must be non-null.");
             Debug.Assert(leftParticipant != null, nameof(leftParticipant) + " must be non-null.");
             Debug.Assert(rightParticipant != null, nameof(rightParticipant) + " must be non-null.");
-            Debug.Assert(newClueQueue != null, nameof(newClueQueue) + " must be non-null.");
+            Debug.Assert(newClues != null, nameof(newClues) + " must be non-null.");
 
             // Assume dialog is already inactive by default
             // CloseDialog();
@@ -66,7 +66,7 @@ namespace Common.MonoBehaviours
             if (_clueToAddAfterDialogCompletes != null)
             {
                 Debug.Log("Adding new clue after dialog completion: " + _clueToAddAfterDialogCompletes); 
-                newClueQueue.Add(_clueToAddAfterDialogCompletes);
+                newClues.Add(_clueToAddAfterDialogCompletes);
             }
         }
 
