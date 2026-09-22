@@ -9,7 +9,6 @@ namespace Common.MonoBehaviours.MindPalace
     public class PalaceMouseController : MonoBehaviour
     {
         [Header("Wrappers")]
-        //[SerializeField] private BoolWrapper isMindPalaceActive;
         [SerializeField] private MonoBehaviourWrapper mousedOverFragment;
         [SerializeField] private MonoBehaviourWrapper mousedOverSlot;
         
@@ -21,7 +20,6 @@ namespace Common.MonoBehaviours.MindPalace
         
         private void Awake()
         {
-            //Debug.Assert(isMindPalaceActive != null, nameof(isMindPalaceActive) + " != null");
             Debug.Assert(inputActions != null, nameof(inputActions) + " != null");
             
             inputActions.Enable();
@@ -31,11 +29,6 @@ namespace Common.MonoBehaviours.MindPalace
 
         private void Update()
         {
-        //    if (isMindPalaceActive) UpdateHover();
-        //}
-
-        //private void UpdateHover()
-        //{
             var mousePos = _pointAction.ReadValue<Vector2>();
             
             var hitFragmentResults = UIRaycast<DraggableFragment>(mousePos);

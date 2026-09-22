@@ -40,7 +40,7 @@ namespace Common.MonoBehaviours.MindPalace
 
         private void OnDestroy()
         {
-            newFragmentsToAdd.NewFragmentAdded += AddNewFragment;
+            newFragmentsToAdd.NewFragmentAdded -= AddNewFragment;
         }
 
         /// <summary>
@@ -92,6 +92,15 @@ namespace Common.MonoBehaviours.MindPalace
             }
         }
 
+        private void ForceSlotUpdate()
+        {
+            List<FragmentData> usedList = usedFragments;
+            foreach (var slot in slots)
+            {
+                if(usedList.Contains(slot.OccupiedFragment?.Data)) slot.UnregisterFragment();
+            }
+        }
+
         private void AddNewFragment(FragmentData newFragmentData)
         {
             Debug.Assert(newFragmentData != null, nameof(newFragmentData) + " expected to be non-null.");
@@ -121,15 +130,6 @@ namespace Common.MonoBehaviours.MindPalace
             var newFragment = newFragmentObject.GetComponent<DraggableFragment>();
             newFragment.InitializeFragment(newFragmentData);
             availableSlot.RegisterFragment(newFragment);
-        }
-
-        private void ForceSlotUpdate()
-        {
-            List<FragmentData> usedList = usedFragments;
-            foreach (var slot in slots)
-            {
-                if(usedList.Contains(slot.OccupiedFragment?.Data)) slot.UnregisterFragment();
-            }
         }
     }
 }
