@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Common.Data.Fragments
 {
+    /// <summary>
+    /// A wrapper of a list of FragmentData.  For example, fragments to create the next time the mind palace is opened.
+    /// </summary>
     [CreateAssetMenu(fileName = "FragmentDataListWrapper", menuName = "Fragments/List Wrapper")]
     public class FragmentDataListWrapper : ScriptableObject
     {
@@ -12,13 +15,9 @@ namespace Common.Data.Fragments
 
         public event Action<FragmentData> NewFragmentAdded;
 
-        public void Awake()
-        {
-            Debug.AssertFormat(isElementPresent != null, nameof(isElementPresent) + " expected to be non-null.");
-        }
-
         private void OnEnable()
         {
+            Debug.AssertFormat(isElementPresent != null, nameof(isElementPresent) + " expected to be non-null.");
             currentList = new();
         }
 
