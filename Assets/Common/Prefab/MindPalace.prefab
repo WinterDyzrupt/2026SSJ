@@ -838,9 +838,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 38af6bf95c5918f4d9c029aa22defa15, type: 2}
-        m_TargetAssemblyTypeName: Common.Data.BoolWrapper, Assembly-CSharp
-        m_MethodName: Toggle
+      - m_Target: {fileID: 2351680941335098912}
+        m_TargetAssemblyTypeName: Common.MonoBehaviours.MindPalace.MindPalaceController,
+          Assembly-CSharp
+        m_MethodName: CloseMindPalace
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1318,9 +1319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 963199b324ec4d479213da601348aa73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Common.MonoBehaviours.MindPalace.MindPalaceController
-  isMindPalaceActive: {fileID: 11400000, guid: 38af6bf95c5918f4d9c029aa22defa15, type: 2}
-  canvasGroup: {fileID: 6697627272452938124}
-  storageArea: {fileID: 116869768538315477}
+  mindPalace: {fileID: 6697627272452938124}
 --- !u!114 &3777302861062120587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1333,7 +1332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d2801279d6417da70e96326c585c38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Common.MonoBehaviours.MindPalace.PalaceMouseController
-  isMindPalaceActive: {fileID: 11400000, guid: 38af6bf95c5918f4d9c029aa22defa15, type: 2}
   mousedOverFragment: {fileID: 11400000, guid: 1a9c505962afb484e992095af332ba4e, type: 2}
   mousedOverSlot: {fileID: 11400000, guid: 41db70498b2ed59408aa93d007a29dd0, type: 2}
   inputActions: {fileID: -944628639613478452, guid: b5a5704131fce554997b5d7bd2fed238, type: 3}
@@ -1428,7 +1426,6 @@ MonoBehaviour:
   fragmentPrefab: {fileID: 8848455114493616410, guid: 2a7cece962f79d64ebd985aeb43eed86, type: 3}
   fragmentParent: {fileID: 9221287966889159590}
   usedFragments: {fileID: 11400000, guid: 7da858c85401d22449e32b865196520f, type: 2}
-  isMindPalaceActive: {fileID: 11400000, guid: 38af6bf95c5918f4d9c029aa22defa15, type: 2}
   newFragmentsToAdd: {fileID: 11400000, guid: a65edb92a8a604f4fbe1c87ba39026ce, type: 2}
   initialFragments:
   - {fileID: 11400000, guid: 3a3f8fb6b23183542b4d2b4677c65e0d, type: 2}

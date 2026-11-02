@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: UsedFragmentData
   m_EditorClassIdentifier: Assembly-CSharp::Common.Data.Fragments.FragmentDataListWrapper
   currentList: []
+  isElementPresent: {fileID: 0}

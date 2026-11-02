@@ -54,6 +54,9 @@ namespace Common.MonoBehaviours.MindPalace
 
         public void RegisterFragment(DraggableFragment fragment)
         {
+            Debug.Assert(fragment != null, nameof(fragment) + " expected to be not null");
+            Debug.Assert(_rectTransform != null, nameof(_rectTransform) + " expected to be not null");
+
             OccupiedFragment = fragment;
             fragment.MoveToPosition(_rectTransform.position);
             OccupancyChanged?.Invoke();

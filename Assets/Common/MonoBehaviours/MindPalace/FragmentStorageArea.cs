@@ -12,25 +12,27 @@ namespace Common.MonoBehaviours.MindPalace
         [SerializeField] private GameObject fragmentPrefab;
         [SerializeField] private Transform fragmentParent;
         [SerializeField] private FragmentDataListWrapper usedFragments;
-        
-        [Header("Wrappers")]
-        [SerializeField] private BoolWrapper isMindPalaceActive;
-        [SerializeField] private FragmentDataListWrapper newFragmentsToAdd;
 
+        [Header("Wrappers")]
+        [SerializeField] private FragmentDataListWrapper newFragmentsToAdd;
+        
         [SerializeField] private List<FragmentData> initialFragments;
-        private readonly List<FragmentData> _queuedFragments = new();
+
+        /// <summary>
+        /// Flag indicating whether this object's Start() has been called; this is important because if it has been
+        /// called, other objects' Awakes have been called (slots), meaning they can be used.  We want logic to happen
+        /// OnEnable, but during the initial OnEnable, the slots have not had Awake called.
+        /// </summary>
+        private bool _isStarted;
         
         private void Awake()
         {
             Debug.Assert(slots.Count != 0,"No slot assigned to the Fragment Storage Area.");
             Debug.Assert(fragmentPrefab != null, "No fragment prefab assigned to the Fragment Storage Area.");
             Debug.Assert(fragmentParent != null, "No fragment parent assigned to the Fragment Storage Area.");
-            Debug.Assert(isMindPalaceActive != null, "No fragment parent active assigned to the Fragment Storage Area.");
             Debug.Assert(newFragmentsToAdd != null, "No fragment to be added to the Fragment Storage Area.");
             
-            
-            newFragmentsToAdd.NewFragmentAdded += AddFragmentToQueue;
-            
+            newFragmentsToAdd.NewFragmentAdded += AddNewFragment;
             // If we don't force an update, Canvas object don't have proper rect transform positions
             // this would cause any grabbed transform data to be wrong
             Canvas.ForceUpdateCanvases();
@@ -38,38 +40,55 @@ namespace Common.MonoBehaviours.MindPalace
 
         private void OnDestroy()
         {
-            newFragmentsToAdd.NewFragmentAdded -= AddFragmentToQueue;
-        }        
-        
-        private void Update()
-        {
-            /*// for testing. Have dialogue control initial fragments instead.
-            if (initialFragments.Count > 0)
-            {
-                newFragmentsToAdd.Add(initialFragments);
-                initialFragments.Clear();
-            }*/
-            
-            CheckToGenerateFragments();
+            newFragmentsToAdd.NewFragmentAdded -= AddNewFragment;
         }
 
-        private void AddNewFragment(List<FragmentData> newFragmentsData)
+        /// <summary>
+        /// Note: This object will be Awake and Enabled before any of its children objects (slots) are Awake.
+        /// It is not safe to use children objects in OnEnable.
+        /// </summary>
+        private void OnEnable()
+        {
+            Debug.Log("Enabled storage area.");
+            if (_isStarted)
+            {
+                AddPreviousNewFragments();
+            }
+            else
+            {
+                Debug.Log("Skipping adding new fragments for first OnEnable.");
+            }
+        }
+
+        private void OnDisable()
+        {
+            Debug.Log("Disabled storage area.");
+        }
+
+        private void Start()
+        {
+            Debug.Log("Starting storage area; now it's safe to add new fragments.");
+            _isStarted = true;
+            AddPreviousNewFragments();
+        }
+
+        /// <summary>
+        /// Add fragments that were added before this object was active.
+        /// Interacts with other game objects; make sure this is called after Awake().
+        /// </summary>
+        private void AddPreviousNewFragments()
         {
             ForceSlotUpdate();
-            
-            foreach (var newFragmentData in newFragmentsData)
+
+            if (newFragmentsToAdd.isElementPresent)
             {
-                var availableSlot = slots.FirstOrDefault(x => !x.IsOccupied);
-                if (!availableSlot)
+                Debug.Log("New fragment present.");
+                foreach (var newFragmentData in newFragmentsToAdd.GetElements())
                 {
-                    Debug.LogError("No available slot found for new fragment!");
-                    return;
+                    AddNewFragmentCore(newFragmentData);
                 }
-            
-                var newFragmentObject = Instantiate(fragmentPrefab, fragmentParent);
-                var newFragment = newFragmentObject.GetComponent<DraggableFragment>();
-                newFragment.InitializeFragment(newFragmentData);
-                availableSlot.RegisterFragment(newFragment);
+
+                newFragmentsToAdd.Clear();
             }
         }
 
@@ -82,19 +101,35 @@ namespace Common.MonoBehaviours.MindPalace
             }
         }
 
-        private void AddFragmentToQueue(FragmentData newFragment)
+        private void AddNewFragment(FragmentData newFragmentData)
         {
-            _queuedFragments.Add(newFragment);
+            Debug.Assert(newFragmentData != null, nameof(newFragmentData) + " expected to be non-null.");
             
-            CheckToGenerateFragments();
+            if (gameObject.activeInHierarchy)
+            {
+                AddNewFragmentCore(newFragmentData);
+                newFragmentsToAdd.Clear();
+            }
+            else
+            {
+                Debug.Log("New fragment added while mind palace is not active; will add when mind palace is enabled.");
+            }
         }
         
-        private void CheckToGenerateFragments()
+        private void AddNewFragmentCore(FragmentData newFragmentData)
         {
-            if (!isMindPalaceActive || _queuedFragments.Count < 1) return;
+            Debug.Log("Adding new fragment: " + newFragmentData);
+            var availableSlot = slots.FirstOrDefault(x => !x.IsOccupied);
+            if (!availableSlot)
+            {
+                Debug.LogError("No available slot found for new fragment!");
+                return;
+            }
             
-            AddNewFragment(_queuedFragments);
-            _queuedFragments.Clear();
+            var newFragmentObject = Instantiate(fragmentPrefab, fragmentParent);
+            var newFragment = newFragmentObject.GetComponent<DraggableFragment>();
+            newFragment.InitializeFragment(newFragmentData);
+            availableSlot.RegisterFragment(newFragment);
         }
     }
 }

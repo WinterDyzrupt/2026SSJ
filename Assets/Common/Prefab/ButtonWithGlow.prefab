@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 6955816553811022799}
   - component: {fileID: 6038121037277064253}
   m_Layer: 5
-  m_Name: ClickableClue
+  m_Name: ButtonWithGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,8 +129,9 @@ MonoBehaviour:
   glowImage: {fileID: 8100500341926513409}
   button: {fileID: 2248547863830046692}
   canBeInteractedWithMultipleTimes: 0
+  hideWhenNotInteractable: 0
   isInteractable: {fileID: 0}
-  cluesAreInteractable: {fileID: 11400000, guid: 7595f9abdb14f9f48b164792b10cf595, type: 2}
+  isBulkInteractable: {fileID: 11400000, guid: 7595f9abdb14f9f48b164792b10cf595, type: 2}
   glowColor: {r: 0, g: 0.87526274, b: 1, a: 1}
   glowSize: 1.05
   pulseSize: 0.1
@@ -256,8 +257,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6038121037277064253}
-        m_TargetAssemblyTypeName: Common.MonoBehaviours.ClickableClue, Assembly-CSharp
-        m_MethodName: OnClueClicked
+        m_TargetAssemblyTypeName: Common.MonoBehaviours.ButtonWithGlow, Assembly-CSharp
+        m_MethodName: OnClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
